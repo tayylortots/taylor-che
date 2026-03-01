@@ -1,7 +1,7 @@
 
-  # Interactive Portfolio Homepage
+  # Taylor Che
 
-  This is a code bundle for Interactive Portfolio Homepage. The original project is available at https://www.figma.com/design/YGHuIMUWPsPaGmqg1v0LKJ/Interactive-Portfolio-Homepage.
+  This is a code bundle for Taylor Che. The original project is available at https://www.figma.com/design/YGHuIMUWPsPaGmqg1v0LKJ/Interactive-Portfolio-Homepage.
 
   ## Running the code
 
