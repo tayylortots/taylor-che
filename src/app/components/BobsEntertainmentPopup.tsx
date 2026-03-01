@@ -150,7 +150,7 @@ export function BobsEntertainmentPopup({ isOpen, onClose }: BobsEntertainmentPop
                         playsInline
                         preload="metadata"
                       >
-                        <source src="/assets/bobs_entertainment_video.mp4" type="video/mp4" />
+                        <source src="/bobs_entertainment_video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </div>
