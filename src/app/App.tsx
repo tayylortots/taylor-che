@@ -23,6 +23,28 @@ export default function App() {
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const workSectionRef = useRef<HTMLDivElement>(null);
   const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const animFrameRef = useRef<number | null>(null);
+
+  const smoothScrollTo = (target: number) => {
+    if (!scrollContainerRef.current) return;
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    const container = scrollContainerRef.current;
+    const start = container.scrollTop;
+    const distance = target - start;
+    const duration = 600;
+    const startTime = performance.now();
+
+    const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      container.scrollTop = start + distance * ease(progress);
+      if (progress < 1) animFrameRef.current = requestAnimationFrame(step);
+    };
+
+    animFrameRef.current = requestAnimationFrame(step);
+  };
 
   const handleTabChange = (tab: 'work' | 'contact') => {
     setActiveTab(tab);
@@ -60,10 +82,10 @@ export default function App() {
       );
 
       // Only snap if we're within 40% of a snap point
-      if (Math.abs(nearest - scrollTop) < clientHeight * 0.4) {
-        scrollContainerRef.current.scrollTo({ top: nearest, behavior: 'smooth' });
+      if (Math.abs(nearest - scrollTop) < clientHeight * 0.3) {
+        smoothScrollTo(nearest);
       }
-    }, 80);
+    }, 150);
   };
 
   const orderedBubbles = [
