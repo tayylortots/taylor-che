@@ -155,7 +155,7 @@ export default function App() {
         <div
           ref={scrollContainerRef}
           className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
-          style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'y mandatory', scrollBehavior: 'smooth' } as React.CSSProperties}
+          style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'y proximity' } as React.CSSProperties}
           onScroll={handleScroll}
         >
           <AnimatePresence mode="wait" initial={false}>
