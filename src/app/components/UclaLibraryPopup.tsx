@@ -252,8 +252,8 @@ function IdeaRow({ image, number, title }: { image: string; number: string; titl
         <img alt={`Idea ${number}`} className="max-w-[85%] max-h-[60%] object-contain pointer-events-none" src={image} />
       </div>
       <div className="content-stretch flex flex-col gap-[6px] sm:gap-[7px] md:gap-[8px] items-start justify-center leading-[18px] sm:leading-[20px] md:leading-[22px] min-h-px min-w-px relative text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] tracking-[0.42px] sm:flex-[1_0_0]">
-        <p className="font-['Work_Sans'] font-normal relative shrink-0 text-[#666]">{number}</p>
-        <p className="font-['Work_Sans'] font-normal relative shrink-0">{title}</p>
+        <p className="font-['Istok_Web'] font-normal relative shrink-0 text-[#666]">{number}</p>
+        <p className="font-['Istok_Web'] font-normal relative shrink-0">{title}</p>
       </div>
     </div>
   );
