@@ -253,14 +253,29 @@ export default function App() {
 
                     <AnimatePresence>
                       {stage !== 'initial' && (
-                        <motion.p
+                        <motion.div
                           initial={{ opacity: 0, y: -20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 1.5, delay: 0.4 }}
-                          className="font-['Istok_Web'] text-[#afafaf] text-[18px] sm:text-[20px] md:text-[24px] mt-6 sm:mt-8 md:mt-12"
+                          className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8 md:mt-12 pointer-events-auto"
                         >
-                          is a...
-                        </motion.p>
+                          <span className="font-['Istok_Web'] text-[#afafaf] text-[18px] sm:text-[20px] md:text-[24px]">is a...</span>
+                          <button
+                            data-generate-button
+                            onClick={handleGenerate}
+                            disabled={allBubblesGenerated}
+                            className={`flex items-center justify-center w-[36px] h-[36px] sm:w-[40px] sm:h-[40px] md:w-[44px] md:h-[44px] rounded-full border border-[#e5e5e5] transition-all flex-shrink-0 ${
+                              allBubblesGenerated
+                                ? 'bg-gray-100 cursor-not-allowed opacity-50'
+                                : 'bg-white hover:bg-gray-50 cursor-pointer'
+                            }`}
+                            aria-label="Generate bubble"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                              <path d="M8 13V3M3 8l5-5 5 5" stroke="#afafaf" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </button>
+                        </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
@@ -287,30 +302,7 @@ export default function App() {
                     )}
                   </AnimatePresence>
 
-                  {/* Generate button */}
-                  <AnimatePresence>
-                    {stage !== 'initial' && (
-                      <motion.div
-                        data-generate-button
-                        className="absolute bottom-[5%] left-0 right-0 flex justify-center pointer-events-auto z-50"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, delay: 0.6 }}
-                      >
-                        <button
-                          onClick={handleGenerate}
-                          disabled={allBubblesGenerated}
-                          className={`px-[30px] sm:px-[40px] md:px-[50px] py-[12px] sm:py-[16px] md:py-[20px] rounded-[100px] border border-[#e5e5e5] transition-all ${
-                            allBubblesGenerated 
-                              ? 'bg-gray-100 cursor-not-allowed opacity-50' 
-                              : 'bg-white hover:bg-gray-50 cursor-pointer'
-                          }`}
-                        >
-                          <span className="font-['Istok_Web'] text-[#737373] text-[18px] sm:text-[20px] md:text-[24px]">generate</span>
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+
 
                   {/* Bubbles */}
                   <div ref={bubbleContainerRef} className="absolute inset-0 pointer-events-none flex items-center justify-center z-40">
