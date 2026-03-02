@@ -22,19 +22,14 @@ export default function App() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const workSectionRef = useRef<HTMLDivElement>(null);
-  const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const animFrameRef = useRef<number | null>(null);
-  const lastScrollTopRef = useRef<number>(0);
-  const isSnappingRef = useRef<boolean>(false);
 
-  const smoothScrollTo = (target: number) => {
-    if (!scrollContainerRef.current) return;
+  const smoothScrollBy = (container: HTMLDivElement, delta: number) => {
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    isSnappingRef.current = true;
-    const container = scrollContainerRef.current;
     const start = container.scrollTop;
+    const target = Math.max(0, Math.min(start + delta, container.scrollHeight - container.clientHeight));
     const distance = target - start;
-    const duration = 800;
+    const duration = 500;
     const startTime = performance.now();
 
     const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -43,11 +38,7 @@ export default function App() {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       container.scrollTop = start + distance * ease(progress);
-      if (progress < 1) {
-        animFrameRef.current = requestAnimationFrame(step);
-      } else {
-        isSnappingRef.current = false;
-      }
+      if (progress < 1) animFrameRef.current = requestAnimationFrame(step);
     };
 
     animFrameRef.current = requestAnimationFrame(step);
@@ -68,49 +59,12 @@ export default function App() {
   };
 
   const handleScroll = () => {
-    if (!scrollContainerRef.current || isSnappingRef.current) return;
+    if (!scrollContainerRef.current) return;
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-
-    // State updates
     const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
     if (scrolledToBottom && !footerRevealed) setFooterRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) setWorkSectionRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) setContactSectionRevealed(true);
-
-    // Track velocity
-    const velocity = scrollTop - lastScrollTopRef.current;
-    lastScrollTopRef.current = scrollTop;
-
-    if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
-    snapTimeoutRef.current = setTimeout(() => {
-      if (!scrollContainerRef.current || isSnappingRef.current) return;
-      const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-      const snapPoints = [0, clientHeight, scrollHeight - clientHeight];
-
-      const nearHero = scrollTop < clientHeight * 0.4;
-      const nearFooter = scrollTop > scrollHeight - clientHeight * 1.4;
-
-      if (!nearHero && !nearFooter) return;
-
-      const currentIndex = snapPoints.reduce((best, point, i) =>
-        Math.abs(point - scrollTop) < Math.abs(snapPoints[best] - scrollTop) ? i : best
-      , 0);
-
-      // If scrolling away with clear intent, advance to next section
-      // If barely moving, snap back to current
-      let targetIndex = currentIndex;
-      if (Math.abs(velocity) > 5) {
-        targetIndex = velocity > 0
-          ? Math.min(currentIndex + 1, snapPoints.length - 1)
-          : Math.max(currentIndex - 1, 0);
-      } else {
-        // Low velocity — only snap back if very close to a snap point
-        const distToNearest = Math.abs(snapPoints[currentIndex] - scrollTop);
-        if (distToNearest > clientHeight * 0.15) return;
-      }
-
-      smoothScrollTo(snapPoints[targetIndex]);
-    }, 250);
   };
 
   const orderedBubbles = [
@@ -211,9 +165,13 @@ export default function App() {
         {/* Layer 1 — Scroll container with Safari touch scrolling fix */}
         <div
           ref={scrollContainerRef}
-          className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
+          className="relative z-10 h-full w-full overflow-y-auto hide-scrollbar pointer-events-none"
           style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
           onScroll={handleScroll}
+          onWheel={(e) => {
+            e.preventDefault();
+            if (scrollContainerRef.current) smoothScrollBy(scrollContainerRef.current, e.deltaY * 1.5);
+          }}
         >
           <AnimatePresence mode="wait" initial={false}>
 
