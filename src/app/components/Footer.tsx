@@ -7,7 +7,7 @@ export function Footer({ onScrollToTop, isRevealed }: { onScrollToTop: () => voi
 
   return (
     <motion.div
-      className="w-full h-full min-h-[90vh] relative overflow-hidden rounded-t-[20px] flex flex-col items-center justify-center"
+      className="w-full h-full min-h-[90vh] relative overflow-hidden rounded-t-[20px] flex flex-col items-center justify-center" style={{ scrollSnapAlign: 'start' }}
       animate={{ backgroundColor: activated ? '#5b8da3' : '#757575' }}
       transition={{ duration: 1.2, ease: 'easeInOut' }}
     >
