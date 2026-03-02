@@ -34,7 +34,7 @@ export default function App() {
     const container = scrollContainerRef.current;
     const start = container.scrollTop;
     const distance = target - start;
-    const duration = 700;
+    const duration = 800;
     const startTime = performance.now();
 
     const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -94,14 +94,14 @@ export default function App() {
 
       // If scrolling with intent, advance to next/prev section
       let targetIndex = currentIndex;
-      if (Math.abs(velocity) > 2) {
+      if (Math.abs(velocity) > 8) {
         targetIndex = velocity > 0
           ? Math.min(currentIndex + 1, snapPoints.length - 1)
           : Math.max(currentIndex - 1, 0);
       }
 
       smoothScrollTo(snapPoints[targetIndex]);
-    }, 120);
+    }, 250);
   };
 
   const orderedBubbles = [
