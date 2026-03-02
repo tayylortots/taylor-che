@@ -324,7 +324,7 @@ export default function App() {
                 </div>
 
                 {/* Section 2 — Work list */}
-                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
+                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto" style={{ scrollSnapAlign: 'start' }}>
                   <WorkSection isVisible={workSectionRevealed} onPopupChange={setIsPopupOpen} />
                 </div>
               </motion.div>
