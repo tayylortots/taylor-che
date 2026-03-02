@@ -23,25 +23,29 @@ export default function App() {
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const workSectionRef = useRef<HTMLDivElement>(null);
   const animFrameRef = useRef<number | null>(null);
+  const scrollTargetRef = useRef<number | null>(null);
 
   const smoothScrollBy = (container: HTMLDivElement, delta: number) => {
+    // Accumulate into a running target instead of restarting each time
+    const current = scrollTargetRef.current ?? container.scrollTop;
+    const target = Math.max(0, Math.min(current + delta, container.scrollHeight - container.clientHeight));
+    scrollTargetRef.current = target;
+
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-    const start = container.scrollTop;
-    const target = Math.max(0, Math.min(start + delta, container.scrollHeight - container.clientHeight));
-    const distance = target - start;
-    const duration = 500;
-    const startTime = performance.now();
 
-    const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const step = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      container.scrollTop = start + distance * ease(progress);
-      if (progress < 1) animFrameRef.current = requestAnimationFrame(step);
+    const animate = () => {
+      const diff = target - container.scrollTop;
+      if (Math.abs(diff) < 0.5) {
+        container.scrollTop = target;
+        scrollTargetRef.current = null;
+        return;
+      }
+      // Exponential ease — smooth but responsive
+      container.scrollTop += diff * 0.12;
+      animFrameRef.current = requestAnimationFrame(animate);
     };
 
-    animFrameRef.current = requestAnimationFrame(step);
+    animFrameRef.current = requestAnimationFrame(animate);
   };
 
   const handleTabChange = (tab: 'work' | 'contact') => {
@@ -170,7 +174,7 @@ export default function App() {
           onScroll={handleScroll}
           onWheel={(e) => {
             e.preventDefault();
-            if (scrollContainerRef.current) smoothScrollBy(scrollContainerRef.current, e.deltaY * 1.5);
+            if (scrollContainerRef.current) smoothScrollBy(scrollContainerRef.current, e.deltaY * 2.5);
           }}
         >
           <AnimatePresence mode="wait" initial={false}>
