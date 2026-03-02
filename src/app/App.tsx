@@ -155,7 +155,7 @@ export default function App() {
         <div
           ref={scrollContainerRef}
           className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
-          style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'y proximity' } as React.CSSProperties}
+          style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'y mandatory', scrollBehavior: 'smooth' } as React.CSSProperties}
           onScroll={handleScroll}
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -171,7 +171,7 @@ export default function App() {
               >
                 {/* Hero section — tap anywhere to reveal on mobile */}
                 <div
-                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden" style={{ scrollSnapAlign: 'start' }}
+                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
                 >
                   {/* "tap me" hint on mobile, "click me" on desktop */}
                   <AnimatePresence>
@@ -324,7 +324,7 @@ export default function App() {
                 </div>
 
                 {/* Section 2 — Work list */}
-                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto" style={{ scrollSnapAlign: 'start' }}>
+                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}>
                   <WorkSection isVisible={workSectionRevealed} onPopupChange={setIsPopupOpen} />
                 </div>
               </motion.div>
