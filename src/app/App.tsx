@@ -25,7 +25,6 @@ export default function App() {
 
   const handleTabChange = (tab: 'work' | 'contact') => {
     setActiveTab(tab);
-    // Jump to top instantly when switching views
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     }
@@ -37,22 +36,19 @@ export default function App() {
     }
   };
 
-  // Detect when footer is revealed via parallax
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-      const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100; // Trigger when close to bottom
+      const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
       
       if (scrolledToBottom && !footerRevealed) {
         setFooterRevealed(true);
       }
 
-      // Detect when work section is in view (when user scrolls past ~50% of hero height)
       if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) {
         setWorkSectionRevealed(true);
       }
 
-      // Detect when contact section is in view (when user scrolls past ~50% of hero height)
       if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) {
         setContactSectionRevealed(true);
       }
@@ -103,8 +99,11 @@ export default function App() {
     }
   };
 
-  // Check if all bubbles have been generated
   const allBubblesGenerated = visibleBubbles.length >= orderedBubbles.length + randomBubblesPool.length;
+
+  // Fix for Safari: character uses two overlaid elements instead of backgroundImage transition
+  // to prevent blinking on hover
+  const showOverlay = stage !== 'initial' && isHoveringChar;
 
   return (
     <div
@@ -121,9 +120,6 @@ export default function App() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        {/* ── Persistent Nav ──
-            inset-x-0 top-0 gives it full card width so Navigation's own
-            "absolute left-0 right-0 flex justify-center" centres correctly. */}
         <AnimatePresence>
           {!isPopupOpen && (
             <motion.div
@@ -138,11 +134,10 @@ export default function App() {
           )}
         </AnimatePresence>
 
-        {/* Layer 0 — Footer, sits behind everything, revealed by parallax */}
+        {/* Layer 0 — Footer */}
         <div 
           className="absolute inset-0 z-0 pointer-events-auto"
           onWheel={(e) => {
-            // Forward scroll events to the scroll container with smoother handling
             if (scrollContainerRef.current) {
               e.preventDefault();
               scrollContainerRef.current.scrollBy({
@@ -155,17 +150,15 @@ export default function App() {
           <Footer onScrollToTop={handleScrollToTop} isRevealed={footerRevealed} />
         </div>
 
-        {/* Layer 1 — Scroll container
-            pointer-events-none so the footer (z-0) can receive events when
-            it's revealed. Individual sections opt back in with pointer-events-auto. */}
+        {/* Layer 1 — Scroll container with Safari touch scrolling fix */}
         <div
           ref={scrollContainerRef}
           className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
+          style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
           onScroll={handleScroll}
         >
           <AnimatePresence mode="wait" initial={false}>
 
-            {/* ── WORK VIEW ── */}
             {activeTab === 'work' ? (
               <motion.div
                 key="work-view"
@@ -175,10 +168,11 @@ export default function App() {
                 transition={{ duration: 0.25 }}
                 className="w-full"
               >
-                {/* Section 1 — Hero (normal, full-height, no sticky) */}
-                <div className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden">
-
-                  {/* "click me" hint — centred in hero, only on initial stage */}
+                {/* Hero section — tap anywhere to reveal on mobile */}
+                <div
+                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden"
+                >
+                  {/* "tap me" hint on mobile, "click me" on desktop */}
                   <AnimatePresence>
                     {stage === 'initial' && (
                       <motion.span
@@ -189,7 +183,8 @@ export default function App() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4 }}
                       >
-                        click me.
+                        <span className="hidden sm:inline">click me.</span>
+                        <span className="sm:hidden">tap me.</span>
                       </motion.span>
                     )}
                   </AnimatePresence>
@@ -209,23 +204,22 @@ export default function App() {
                       )}
                     </AnimatePresence>
 
-                    {/* 谢 character */}
+                    {/* 谢 character — Safari-safe: two stacked elements instead of backgroundImage swap */}
                     <div
                       className="relative z-10 pointer-events-auto"
                       onMouseEnter={() => setIsHoveringChar(true)}
                       onMouseLeave={() => setIsHoveringChar(false)}
+                      onTouchStart={() => { if (stage !== 'initial') setIsHoveringChar(true); }}
+                      onTouchEnd={() => setIsHoveringChar(false)}
                     >
+                      {/* Base gradient character */}
                       <motion.p
-                        className="font-['Noto_Sans_SC'] font-black text-[150px] sm:text-[200px] md:text-[300px] leading-none select-none transition-all duration-500 ease-in-out"
+                        className="font-['Noto_Sans_SC'] font-black text-[150px] sm:text-[200px] md:text-[300px] leading-none select-none"
                         style={{
                           color: 'transparent',
-                          backgroundClip: 'text',
                           WebkitBackgroundClip: 'text',
-                          backgroundImage: (stage !== 'initial' && isHoveringChar)
-                            ? `url(${characterOverlay})`
-                            : "url('data:image/svg+xml;utf8,<svg viewBox=\"0 0 300 363\" xmlns=\"http://www.w3.org/2000/svg\" preserveAspectRatio=\"none\"><rect x=\"0\" y=\"0\" height=\"100%\" width=\"100%\" fill=\"url(%23grad)\" opacity=\"1\"/><defs><radialGradient id=\"grad\" gradientUnits=\"userSpaceOnUse\" cx=\"0\" cy=\"0\" r=\"10\" gradientTransform=\"matrix(9.1849e-16 18.15 -15 1.1114e-15 150 181.5)\"><stop stop-color=\"rgba(217,217,217,1)\" offset=\"0\"/><stop stop-color=\"rgba(166,166,166,1)\" offset=\"0.5\"/><stop stop-color=\"rgba(141,141,141,1)\" offset=\"0.75\"/><stop stop-color=\"rgba(115,115,115,1)\" offset=\"1\"/></radialGradient></defs></svg>')",
-                          backgroundSize: (stage !== 'initial' && isHoveringChar) ? 'cover' : 'auto',
-                          backgroundPosition: 'center',
+                          backgroundClip: 'text',
+                          backgroundImage: "url('data:image/svg+xml;utf8,<svg viewBox=\"0 0 300 363\" xmlns=\"http://www.w3.org/2000/svg\" preserveAspectRatio=\"none\"><rect x=\"0\" y=\"0\" height=\"100%\" width=\"100%\" fill=\"url(%23grad)\" opacity=\"1\"/><defs><radialGradient id=\"grad\" gradientUnits=\"userSpaceOnUse\" cx=\"0\" cy=\"0\" r=\"10\" gradientTransform=\"matrix(9.1849e-16 18.15 -15 1.1114e-15 150 181.5)\"><stop stop-color=\"rgba(217,217,217,1)\" offset=\"0\"/><stop stop-color=\"rgba(166,166,166,1)\" offset=\"0.5\"/><stop stop-color=\"rgba(141,141,141,1)\" offset=\"0.75\"/><stop stop-color=\"rgba(115,115,115,1)\" offset=\"1\"/></radialGradient></defs></svg>')",
                         }}
                         animate={{
                           opacity: (stage !== 'initial' || isHoveringChar) ? 1 : 0,
@@ -235,6 +229,25 @@ export default function App() {
                       >
                         谢
                       </motion.p>
+
+                      {/* Overlay image character — fades in on hover, no backgroundImage swap = no Safari blink */}
+                      {stage !== 'initial' && (
+                        <motion.p
+                          className="font-['Noto_Sans_SC'] font-black text-[150px] sm:text-[200px] md:text-[300px] leading-none select-none absolute inset-0"
+                          style={{
+                            color: 'transparent',
+                            WebkitBackgroundClip: 'text',
+                            backgroundClip: 'text',
+                            backgroundImage: `url(${characterOverlay})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }}
+                          animate={{ opacity: showOverlay ? 1 : 0 }}
+                          transition={{ duration: 0.4 }}
+                        >
+                          谢
+                        </motion.p>
+                      )}
                     </div>
 
                     <AnimatePresence>
@@ -251,7 +264,7 @@ export default function App() {
                     </AnimatePresence>
                   </div>
 
-                  {/* Scroll down indicator — bottom-right, visible after reveal */}
+                  {/* Scroll down indicator */}
                   <AnimatePresence>
                     {stage !== 'initial' && (
                       <motion.div
@@ -317,7 +330,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Section 2 — Work list, stacks below hero, footer revealed below */}
+                {/* Section 2 — Work list */}
                 <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto">
                   <WorkSection isVisible={workSectionRevealed} onPopupChange={setIsPopupOpen} />
                 </div>
@@ -325,7 +338,6 @@ export default function App() {
 
             ) : (
 
-              /* ── CONTACT VIEW ── */
               <motion.div
                 key="contact-view"
                 initial={{ opacity: 0 }}
@@ -334,7 +346,6 @@ export default function App() {
                 transition={{ duration: 0.25 }}
                 className="w-full"
               >
-                {/* Contact section fills viewport, footer revealed below */}
                 <div className="relative bg-white min-h-screen sm:min-h-[90vh] z-20 mb-[90vh] pointer-events-auto">
                   <div className="px-[24px] sm:px-[40px] md:px-[60px] pt-[80px] sm:pt-[100px] md:pt-[120px] pb-[60px] sm:pb-[80px] md:pb-[100px]">
                     <ContactSection isVisible={contactSectionRevealed} />
@@ -347,7 +358,7 @@ export default function App() {
           </AnimatePresence>
         </div>
 
-        {/* Custom scrollbar overlay — sits above all layers */}
+        {/* Custom scrollbar overlay */}
         <CustomScrollbar scrollContainerRef={scrollContainerRef} />
       </motion.div>
     </div>
