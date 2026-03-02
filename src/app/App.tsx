@@ -24,14 +24,17 @@ export default function App() {
   const workSectionRef = useRef<HTMLDivElement>(null);
   const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const animFrameRef = useRef<number | null>(null);
+  const lastScrollTopRef = useRef<number>(0);
+  const isSnappingRef = useRef<boolean>(false);
 
   const smoothScrollTo = (target: number) => {
     if (!scrollContainerRef.current) return;
     if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    isSnappingRef.current = true;
     const container = scrollContainerRef.current;
     const start = container.scrollTop;
     const distance = target - start;
-    const duration = 600;
+    const duration = 700;
     const startTime = performance.now();
 
     const ease = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -40,7 +43,11 @@ export default function App() {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       container.scrollTop = start + distance * ease(progress);
-      if (progress < 1) animFrameRef.current = requestAnimationFrame(step);
+      if (progress < 1) {
+        animFrameRef.current = requestAnimationFrame(step);
+      } else {
+        isSnappingRef.current = false;
+      }
     };
 
     animFrameRef.current = requestAnimationFrame(step);
@@ -61,31 +68,40 @@ export default function App() {
   };
 
   const handleScroll = () => {
-    if (!scrollContainerRef.current) return;
+    if (!scrollContainerRef.current || isSnappingRef.current) return;
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
 
+    // State updates
     const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
     if (scrolledToBottom && !footerRevealed) setFooterRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) setWorkSectionRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) setContactSectionRevealed(true);
 
-    // JS-based snap: after user stops scrolling, snap to nearest section
+    // Track velocity
+    const velocity = scrollTop - lastScrollTopRef.current;
+    lastScrollTopRef.current = scrollTop;
+
     if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
     snapTimeoutRef.current = setTimeout(() => {
-      if (!scrollContainerRef.current) return;
+      if (!scrollContainerRef.current || isSnappingRef.current) return;
       const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-
-      // Snap points: top of hero (0), top of work section (clientHeight), top of footer (scrollHeight - clientHeight)
       const snapPoints = [0, clientHeight, scrollHeight - clientHeight];
-      const nearest = snapPoints.reduce((prev, curr) =>
-        Math.abs(curr - scrollTop) < Math.abs(prev - scrollTop) ? curr : prev
-      );
 
-      // Only snap if we're within 40% of a snap point
-      if (Math.abs(nearest - scrollTop) < clientHeight * 0.3) {
-        smoothScrollTo(nearest);
+      // Find which section we're closest to
+      const currentIndex = snapPoints.reduce((best, point, i) =>
+        Math.abs(point - scrollTop) < Math.abs(snapPoints[best] - scrollTop) ? i : best
+      , 0);
+
+      // If scrolling with intent, advance to next/prev section
+      let targetIndex = currentIndex;
+      if (Math.abs(velocity) > 2) {
+        targetIndex = velocity > 0
+          ? Math.min(currentIndex + 1, snapPoints.length - 1)
+          : Math.max(currentIndex - 1, 0);
       }
-    }, 150);
+
+      smoothScrollTo(snapPoints[targetIndex]);
+    }, 120);
   };
 
   const orderedBubbles = [
