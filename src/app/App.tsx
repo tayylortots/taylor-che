@@ -22,31 +22,7 @@ export default function App() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const workSectionRef = useRef<HTMLDivElement>(null);
-  const animFrameRef = useRef<number | null>(null);
-  const scrollTargetRef = useRef<number | null>(null);
 
-  const smoothScrollBy = (container: HTMLDivElement, delta: number) => {
-    // Accumulate into a running target instead of restarting each time
-    const current = scrollTargetRef.current ?? container.scrollTop;
-    const target = Math.max(0, Math.min(current + delta, container.scrollHeight - container.clientHeight));
-    scrollTargetRef.current = target;
-
-    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-
-    const animate = () => {
-      const diff = target - container.scrollTop;
-      if (Math.abs(diff) < 0.5) {
-        container.scrollTop = target;
-        scrollTargetRef.current = null;
-        return;
-      }
-      // Exponential ease — smooth but responsive
-      container.scrollTop += diff * 0.08;
-      animFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animFrameRef.current = requestAnimationFrame(animate);
-  };
 
   const handleTabChange = (tab: 'work' | 'contact') => {
     setActiveTab(tab);
@@ -169,13 +145,9 @@ export default function App() {
         {/* Layer 1 — Scroll container with Safari touch scrolling fix */}
         <div
           ref={scrollContainerRef}
-          className="relative z-10 h-full w-full overflow-y-auto hide-scrollbar pointer-events-none"
+          className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
           style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
           onScroll={handleScroll}
-          onWheel={(e) => {
-            e.preventDefault();
-            if (scrollContainerRef.current) smoothScrollBy(scrollContainerRef.current, e.deltaY * 1.2);
-          }}
         >
           <AnimatePresence mode="wait" initial={false}>
 
