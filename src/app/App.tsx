@@ -28,6 +28,7 @@ export default function App() {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     }
+    if (tab === 'contact') setContactSectionRevealed(true);
   };
 
   const handleScrollToTop = () => {
