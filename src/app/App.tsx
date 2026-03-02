@@ -22,6 +22,7 @@ export default function App() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const workSectionRef = useRef<HTMLDivElement>(null);
+  const snapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleTabChange = (tab: 'work' | 'contact') => {
     setActiveTab(tab);
@@ -38,22 +39,31 @@ export default function App() {
   };
 
   const handleScroll = () => {
-    if (scrollContainerRef.current) {
+    if (!scrollContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+
+    const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
+    if (scrolledToBottom && !footerRevealed) setFooterRevealed(true);
+    if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) setWorkSectionRevealed(true);
+    if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) setContactSectionRevealed(true);
+
+    // JS-based snap: after user stops scrolling, snap to nearest section
+    if (snapTimeoutRef.current) clearTimeout(snapTimeoutRef.current);
+    snapTimeoutRef.current = setTimeout(() => {
+      if (!scrollContainerRef.current) return;
       const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-      const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
-      
-      if (scrolledToBottom && !footerRevealed) {
-        setFooterRevealed(true);
-      }
 
-      if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) {
-        setWorkSectionRevealed(true);
-      }
+      // Snap points: top of hero (0), top of work section (clientHeight), top of footer (scrollHeight - clientHeight)
+      const snapPoints = [0, clientHeight, scrollHeight - clientHeight];
+      const nearest = snapPoints.reduce((prev, curr) =>
+        Math.abs(curr - scrollTop) < Math.abs(prev - scrollTop) ? curr : prev
+      );
 
-      if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) {
-        setContactSectionRevealed(true);
+      // Only snap if we're within 40% of a snap point
+      if (Math.abs(nearest - scrollTop) < clientHeight * 0.4) {
+        scrollContainerRef.current.scrollTo({ top: nearest, behavior: 'smooth' });
       }
-    }
+    }, 80);
   };
 
   const orderedBubbles = [
@@ -155,7 +165,7 @@ export default function App() {
         <div
           ref={scrollContainerRef}
           className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
-          style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'y proximity' } as React.CSSProperties}
+          style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
           onScroll={handleScroll}
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -171,7 +181,7 @@ export default function App() {
               >
                 {/* Hero section — tap anywhere to reveal on mobile */}
                 <div
-                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden" style={{ scrollSnapAlign: 'start', scrollSnapStop: 'always' }}
+                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden"
                 >
                   {/* "tap me" hint on mobile, "click me" on desktop */}
                   <AnimatePresence>
@@ -324,7 +334,7 @@ export default function App() {
                 </div>
 
                 {/* Section 2 — Work list */}
-                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto" style={{ scrollSnapAlign: 'start' }}>
+                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto">
                   <WorkSection isVisible={workSectionRevealed} onPopupChange={setIsPopupOpen} />
                 </div>
               </motion.div>
