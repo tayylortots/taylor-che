@@ -332,7 +332,7 @@ export default function App() {
                 </div>
 
                 {/* Section 2 — Work list */}
-                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto">
+                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto rounded-b-[12px] sm:rounded-b-[20px]">
                   <WorkSection isVisible={workSectionRevealed} onPopupChange={setIsPopupOpen} />
                 </div>
               </motion.div>
@@ -347,7 +347,7 @@ export default function App() {
                 transition={{ duration: 0.25 }}
                 className="w-full"
               >
-                <div className="relative bg-white min-h-screen sm:min-h-[90vh] z-20 mb-[90vh] pointer-events-auto">
+                <div className="relative bg-white min-h-screen sm:min-h-[90vh] z-20 mb-[90vh] pointer-events-auto rounded-b-[12px] sm:rounded-b-[20px]">
                   <div className="px-[24px] sm:px-[40px] md:px-[60px] pt-[80px] sm:pt-[100px] md:pt-[120px] pb-[60px] sm:pb-[80px] md:pb-[100px]">
                     <ContactSection isVisible={contactSectionRevealed} />
                   </div>
