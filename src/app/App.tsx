@@ -87,10 +87,8 @@ export default function App() {
       const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
       const snapPoints = [0, clientHeight, scrollHeight - clientHeight];
 
-      // Only snap if within 25% of the hero top or 25% of the footer bottom
-      // This lets the user scroll freely through the work section
-      const nearHero = scrollTop < clientHeight * 0.25;
-      const nearFooter = scrollTop > scrollHeight - clientHeight * 1.25;
+      const nearHero = scrollTop < clientHeight * 0.4;
+      const nearFooter = scrollTop > scrollHeight - clientHeight * 1.4;
 
       if (!nearHero && !nearFooter) return;
 
@@ -98,11 +96,17 @@ export default function App() {
         Math.abs(point - scrollTop) < Math.abs(snapPoints[best] - scrollTop) ? i : best
       , 0);
 
+      // If scrolling away with clear intent, advance to next section
+      // If barely moving, snap back to current
       let targetIndex = currentIndex;
-      if (Math.abs(velocity) > 8) {
+      if (Math.abs(velocity) > 5) {
         targetIndex = velocity > 0
           ? Math.min(currentIndex + 1, snapPoints.length - 1)
           : Math.max(currentIndex - 1, 0);
+      } else {
+        // Low velocity — only snap back if very close to a snap point
+        const distToNearest = Math.abs(snapPoints[currentIndex] - scrollTop);
+        if (distToNearest > clientHeight * 0.15) return;
       }
 
       smoothScrollTo(snapPoints[targetIndex]);
