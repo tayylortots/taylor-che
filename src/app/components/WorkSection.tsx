@@ -157,7 +157,7 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
 
 export function WorkSection({ isVisible, onPopupChange }: { isVisible: boolean; onPopupChange: (isOpen: boolean) => void }) {
   return (
-    <div className="w-full relative px-[24px] sm:px-[40px] md:px-[60px] pb-[60px] sm:pb-[80px] md:pb-[100px] pt-[80px] sm:pt-[100px] md:pt-[120px] bg-white rounded-t-[20px]">
+    <div className="w-full relative px-[24px] sm:px-[40px] md:px-[60px] pb-[60px] sm:pb-[80px] md:pb-[100px] pt-[80px] sm:pt-[100px] md:pt-[120px] bg-white rounded-t-[20px] rounded-b-[12px] sm:rounded-b-[20px]">
       <WorkContent isVisible={isVisible} onPopupChange={onPopupChange} />
     </div>
   );
