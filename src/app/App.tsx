@@ -41,7 +41,7 @@ export default function App() {
         return;
       }
       // Exponential ease — smooth but responsive
-      container.scrollTop += diff * 0.12;
+      container.scrollTop += diff * 0.08;
       animFrameRef.current = requestAnimationFrame(animate);
     };
 
@@ -174,7 +174,7 @@ export default function App() {
           onScroll={handleScroll}
           onWheel={(e) => {
             e.preventDefault();
-            if (scrollContainerRef.current) smoothScrollBy(scrollContainerRef.current, e.deltaY * 2.5);
+            if (scrollContainerRef.current) smoothScrollBy(scrollContainerRef.current, e.deltaY * 1.2);
           }}
         >
           <AnimatePresence mode="wait" initial={false}>
