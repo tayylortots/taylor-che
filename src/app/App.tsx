@@ -128,7 +128,7 @@ export default function App() {
         </AnimatePresence>
 
         {/* Layer 0 — Footer */}
-        <div className={`absolute inset-0 pointer-events-none ${footerRevealed ? "z-20" : "z-0"}`}>
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <Footer onScrollToTop={handleScrollToTop} isRevealed={footerRevealed} />
         </div>
 
