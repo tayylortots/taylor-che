@@ -43,6 +43,7 @@ export default function App() {
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
     const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
     if (scrolledToBottom && !footerRevealed) setFooterRevealed(true);
+    if (!scrolledToBottom && footerRevealed) setFooterRevealed(false);
     if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) setWorkSectionRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) setContactSectionRevealed(true);
   };
@@ -127,25 +128,14 @@ export default function App() {
         </AnimatePresence>
 
         {/* Layer 0 — Footer */}
-        <div 
-          className="absolute inset-0 z-0 pointer-events-auto"
-          onWheel={(e) => {
-            if (scrollContainerRef.current) {
-              e.preventDefault();
-              scrollContainerRef.current.scrollBy({
-                top: e.deltaY,
-                behavior: 'instant' as ScrollBehavior
-              });
-            }
-          }}
-        >
+        <div className={`absolute inset-0 pointer-events-none ${footerRevealed ? "z-20" : "z-0"}`}>
           <Footer onScrollToTop={handleScrollToTop} isRevealed={footerRevealed} />
         </div>
 
         {/* Layer 1 — Scroll container with Safari touch scrolling fix */}
         <div
           ref={scrollContainerRef}
-          className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar"
+          className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-auto"
           style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' } as React.CSSProperties}
           onScroll={handleScroll}
         >
