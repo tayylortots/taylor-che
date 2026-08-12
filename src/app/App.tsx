@@ -107,7 +107,7 @@ export default function App() {
       {/* Main Card */}
       <motion.div
         layout
-        className="relative w-[95vw] sm:w-[90vw] max-w-[1829px] h-[95vh] sm:h-[90vh] max-h-[972px] rounded-[12px] sm:rounded-[20px] shadow-[0px_4px_27.1px_2px_rgba(200,200,200,0.12)] overflow-hidden isolate"
+        className="relative w-[95vw] sm:w-[90vw] max-w-[1829px] h-[95vh] sm:h-[90vh] max-h-[972px] rounded-[12px] sm:rounded-[20px] shadow-[0px_4px_27.1px_2px_rgba(200,200,200,0.12)] isolate" style={{ overflow: "clip" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -145,8 +145,8 @@ export default function App() {
         {/* Layer 1 — Scroll container with Safari touch scrolling fix */}
         <div
           ref={scrollContainerRef}
-          className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar pointer-events-none"
-          style={{ WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+          className="relative z-10 h-full w-full overflow-y-auto scroll-smooth hide-scrollbar"
+          style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' } as React.CSSProperties}
           onScroll={handleScroll}
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -162,7 +162,7 @@ export default function App() {
               >
                 {/* Hero section — tap anywhere to reveal on mobile */}
                 <div
-                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white pointer-events-auto overflow-hidden"
+                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white overflow-hidden"
                 >
                   {/* "tap me" hint on mobile, "click me" on desktop */}
                   <AnimatePresence>
@@ -315,7 +315,7 @@ export default function App() {
                 </div>
 
                 {/* Section 2 — Work list */}
-                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh] pointer-events-auto">
+                <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh]">
                   <WorkSection isVisible={workSectionRevealed} onPopupChange={setIsPopupOpen} />
                 </div>
               </motion.div>
@@ -330,7 +330,7 @@ export default function App() {
                 transition={{ duration: 0.25 }}
                 className="w-full"
               >
-                <div className="relative bg-white z-20 mb-[90vh] pointer-events-auto">
+                <div className="relative bg-white z-20 mb-[90vh]">
                   <div className="px-[24px] sm:px-[40px] md:px-[60px] pt-[80px] sm:pt-[100px] md:pt-[120px] pb-[60px] sm:pb-[80px] md:pb-[100px]">
                     <ContactSection isVisible={contactSectionRevealed} />
                   </div>
