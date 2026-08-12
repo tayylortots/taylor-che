@@ -13,6 +13,10 @@ interface BubbleProps {
 
 export function Bubble({ text, x, y, delay, hasArrow = false, constraintRef, href }: BubbleProps) {
   const [isDragging, setIsDragging] = useState(false);
+
+  // Scale down initial bubble positions on small screens so they stay within bounds
+  const scaledX = typeof window !== 'undefined' && window.innerWidth < 640 ? x * 0.35 : x;
+  const scaledY = typeof window !== 'undefined' && window.innerWidth < 640 ? y * 0.35 : y;
   
   // Randomize float range slightly for organic feel
   const { floatY, floatX, duration } = useMemo(() => ({
@@ -48,7 +52,7 @@ export function Bubble({ text, x, y, delay, hasArrow = false, constraintRef, hre
         rotate: { duration: 0.8, delay, ease: "backOut" },
       }}
       className="absolute z-20 pointer-events-auto"
-      style={{ left: '50%', top: '50%', marginLeft: x, marginTop: y }}
+      style={{ left: '50%', top: '50%', marginLeft: scaledX, marginTop: scaledY }}
     >
       <motion.div
         animate={{
