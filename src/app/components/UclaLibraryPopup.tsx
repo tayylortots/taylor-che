@@ -508,13 +508,13 @@ export function UclaLibraryPopup({ isOpen, onClose }: UclaLibraryPopupProps) {
             className={`fixed z-[100] bg-white shadow-[0px_4px_27.1px_0px_rgba(200,200,200,0.08)] overflow-hidden
               ${isExpanded 
                 ? 'inset-0 m-0' 
-                : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] sm:w-[92vw] md:w-[85vw] max-w-[900px] h-[60vh] sm:h-[92vh] md:h-[85vh] rounded-[12px] sm:rounded-[20px] md:rounded-[30px] lg:rounded-[40px]'
+                : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[88vw] sm:w-[88vw] md:w-[85vw] max-w-[900px] h-[75vh] sm:h-[92vh] md:h-[85vh] rounded-[12px] sm:rounded-[20px] md:rounded-[30px] lg:rounded-[40px]'
               }`}
           >
             {/* Scrollable container inside */}
             <div 
               ref={scrollContainerRef}
-              className={isExpanded ? 'h-full overflow-auto scrollbar-thin' : 'max-h-[85vh] overflow-auto scrollbar-thin'}
+              className={isExpanded ? 'h-full overflow-auto scrollbar-thin' : 'h-full overflow-auto scrollbar-thin'}
               style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(0,0,0,0.22) transparent',
