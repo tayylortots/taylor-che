@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 
 const links = [
-  { title: "Resume", url: "#" },
+  { title: "Resume", url: "/TaylorChe_Resume.pdf" },
   { title: "LinkedIn", url: "https://www.linkedin.com/in/taylor-che/" },
   { title: "Instagram", url: "https://www.instagram.com/tayylor.tots/" },
   { title: "Behance", url: "https://www.behance.net/taylorche" },
