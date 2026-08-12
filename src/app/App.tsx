@@ -276,7 +276,7 @@ export default function App() {
                     {stage !== 'initial' && (
                       <motion.div
                         data-scroll-indicator
-                        className="flex absolute bottom-[5%] left-1/2 -translate-x-1/2 flex-col items-center gap-1 pointer-events-none z-50"
+                        className="flex absolute bottom-[5%] left-1/2 -translate-x-1/2 sm:left-auto sm:right-[5%] sm:translate-x-0 flex-col items-center gap-1 pointer-events-none z-50"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1.5, delay: 0.8 }}
