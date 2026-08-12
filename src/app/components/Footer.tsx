@@ -14,7 +14,7 @@ export function Footer({ onScrollToTop, isRevealed }: { onScrollToTop: () => voi
 
       {/* Circle Graphic - clickable, triggers color shift */}
       <motion.div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[520px] md:h-[520px] select-none z-10 cursor-pointer pointer-events-auto"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[520px] md:h-[520px] select-none z-10 pointer-events-none"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={isRevealed ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
         transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
