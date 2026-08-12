@@ -13,7 +13,7 @@ export function Navigation({ activeTab, onTabChange }: NavigationProps) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, delay: 0.5 }}
-      className="absolute top-[40px] left-0 right-0 flex justify-center z-50 pointer-events-auto"
+      className="absolute top-[40px] left-0 right-0 flex justify-center sm:justify-end sm:pr-[40px] md:pr-[60px] z-50 pointer-events-auto"
     >
       <div
         className="flex gap-[10px] items-center justify-center p-[8px] relative rounded-[60px] border border-[#e5e5e5] bg-white/50 backdrop-blur-sm"
