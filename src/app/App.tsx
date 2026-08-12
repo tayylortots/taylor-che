@@ -198,7 +198,7 @@ export default function App() {
 
                     {/* 谢 character — Safari-safe: two stacked elements instead of backgroundImage swap */}
                     <div
-                      className="relative z-10 pointer-events-auto"
+                      className="relative z-10 pointer-events-none"
                       onMouseEnter={() => setIsHoveringChar(true)}
                       onMouseLeave={() => setIsHoveringChar(false)}
                       onTouchStart={() => { if (stage !== 'initial') setIsHoveringChar(true); }}
@@ -206,7 +206,7 @@ export default function App() {
                     >
                       {/* Base gradient character */}
                       <motion.p
-                        className="font-['Noto_Sans_SC'] font-black text-[150px] sm:text-[200px] md:text-[300px] leading-none select-none"
+                        className="font-['Noto_Sans_SC'] font-black text-[150px] sm:text-[200px] md:text-[300px] leading-none select-none pointer-events-auto"
                         style={{
                           color: 'transparent',
                           WebkitBackgroundClip: 'text',
@@ -248,7 +248,7 @@ export default function App() {
                           initial={{ opacity: 0, y: -20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 1.5, delay: 0.4 }}
-                          className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8 md:mt-12 pointer-events-auto"
+                          className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8 md:mt-12 pointer-events-auto relative z-20"
                         >
                           <span className="font-['Istok_Web'] text-[#afafaf] text-[18px] sm:text-[20px] md:text-[24px]">is a...</span>
                           <button
