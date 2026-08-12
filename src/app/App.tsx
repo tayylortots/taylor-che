@@ -42,8 +42,8 @@ export default function App() {
     if (!scrollContainerRef.current) return;
     const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
     const scrolledToBottom = scrollHeight - scrollTop - clientHeight < 100;
-    if (scrolledToBottom && !footerRevealed) setFooterRevealed(true);
-    if (!scrolledToBottom && footerRevealed) setFooterRevealed(false);
+    if (scrolledToBottom) setFooterRevealed(true);
+    if (!scrolledToBottom) setFooterRevealed(false);
     if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) setWorkSectionRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) setContactSectionRevealed(true);
   };
