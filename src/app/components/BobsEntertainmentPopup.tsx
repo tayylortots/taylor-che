@@ -115,7 +115,7 @@ export function BobsEntertainmentPopup({ isOpen, onClose }: BobsEntertainmentPop
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[85vw] sm:w-[85vw] max-w-[900px] h-[80vh] sm:h-[85vh]"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[85vw] sm:w-[85vw] max-w-[900px] h-[55vh] sm:h-[85vh]"
           >
             <div className="bg-white h-full content-stretch flex flex-col items-start relative rounded-[20px] sm:rounded-[30px] md:rounded-[40px]">
               <div aria-hidden="true" className="absolute inset-0 pointer-events-none rounded-[20px] sm:rounded-[30px] md:rounded-[40px] shadow-[0px_4px_27.1px_0px_rgba(200,200,200,0.08)]" />
