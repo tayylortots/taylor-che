@@ -149,15 +149,15 @@ export default function App() {
           style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehavior: 'contain' } as React.CSSProperties}
           onScroll={handleScroll}
         >
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="sync" initial={false}>
 
             {activeTab === 'work' ? (
               <motion.div
                 key="work-view"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
                 className="w-full"
               >
                 {/* Hero section — tap anywhere to reveal on mobile */}
@@ -324,10 +324,10 @@ export default function App() {
 
               <motion.div
                 key="contact-view"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
                 className="w-full"
               >
                 <div className="relative bg-white z-20 mb-[90vh]">
