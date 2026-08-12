@@ -24,10 +24,7 @@ export default function App() {
   const workSectionRef = useRef<HTMLDivElement>(null);
 
 
-  const [tabDirection, setTabDirection] = useState<1 | -1>(1);
-
   const handleTabChange = (tab: 'work' | 'contact') => {
-    setTabDirection(tab === 'contact' ? 1 : -1);
     setActiveTab(tab);
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
@@ -157,10 +154,10 @@ export default function App() {
             {activeTab === 'work' ? (
               <motion.div
                 key="work-view"
-                initial={{ opacity: 0, y: tabDirection * -60 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: tabDirection * 60 }}
-                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
                 className="w-full"
               >
                 {/* Hero section — tap anywhere to reveal on mobile */}
@@ -327,10 +324,10 @@ export default function App() {
 
               <motion.div
                 key="contact-view"
-                initial={{ opacity: 0, y: tabDirection * 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: tabDirection * -60 }}
-                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
                 className="w-full"
               >
                 <div className="relative bg-white z-20 mb-[90vh]">
