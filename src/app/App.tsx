@@ -204,8 +204,8 @@ export default function App() {
                           backgroundImage: "url('data:image/svg+xml;utf8,<svg viewBox=\"0 0 300 363\" xmlns=\"http://www.w3.org/2000/svg\" preserveAspectRatio=\"none\"><rect x=\"0\" y=\"0\" height=\"100%\" width=\"100%\" fill=\"url(%23grad)\" opacity=\"1\"/><defs><radialGradient id=\"grad\" gradientUnits=\"userSpaceOnUse\" cx=\"0\" cy=\"0\" r=\"10\" gradientTransform=\"matrix(9.1849e-16 18.15 -15 1.1114e-15 150 181.5)\"><stop stop-color=\"rgba(217,217,217,1)\" offset=\"0\"/><stop stop-color=\"rgba(166,166,166,1)\" offset=\"0.5\"/><stop stop-color=\"rgba(141,141,141,1)\" offset=\"0.75\"/><stop stop-color=\"rgba(115,115,115,1)\" offset=\"1\"/></radialGradient></defs></svg>')",
                         }}
                         animate={{
-                          opacity: (stage !== 'initial' || isHoveringChar) ? 1 : 0,
-                          scale: (stage === 'initial' && isHoveringChar) ? 1.05 : 1,
+                          opacity: stage !== 'initial' ? 1 : 0,
+                          scale: 1,
                         }}
                         transition={{ duration: 0.5 }}
                       >
