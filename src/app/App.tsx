@@ -156,23 +156,18 @@ export default function App() {
                   {/* "tap me" hint on mobile, "click me" on desktop */}
                   <AnimatePresence>
                     {stage === 'initial' && (
-                      <motion.div
+                      <motion.span
                         key="click-hint"
-                        className="absolute z-20"
-                        style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                        className="absolute inset-0 flex items-center justify-center font-['Istok_Web'] text-[#c0c0c0] text-[16px] tracking-wide select-none z-20 cursor-pointer"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4 }}
+                        onClick={handleInitialClick}
                       >
-                        <button
-                          onClick={handleInitialClick}
-                          className="font-['Istok_Web'] text-[#c0c0c0] text-[16px] tracking-wide select-none cursor-pointer px-4 py-2"
-                        >
-                          <span className="hidden sm:inline">click me.</span>
-                          <span className="sm:hidden">tap me.</span>
-                        </button>
-                      </motion.div>
+                        <span className="hidden sm:inline">click me.</span>
+                        <span className="sm:hidden">tap me.</span>
+                      </motion.span>
                     )}
                   </AnimatePresence>
 
