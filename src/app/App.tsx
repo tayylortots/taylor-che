@@ -101,7 +101,6 @@ export default function App() {
   return (
     <div
       className="relative w-full h-screen bg-[#f0f0f0] overflow-hidden flex items-center justify-center cursor-default"
-      onClick={handleInitialClick}
     >
       <CustomCursor isActive={stage === 'initial'} isHoveringChar={isHoveringChar} />
 
@@ -159,11 +158,12 @@ export default function App() {
                     {stage === 'initial' && (
                       <motion.span
                         key="click-hint"
-                        className="absolute inset-0 flex items-center justify-center font-['Istok_Web'] text-[#c0c0c0] text-[16px] tracking-wide pointer-events-none select-none z-20"
+                        className="absolute inset-0 flex items-center justify-center font-['Istok_Web'] text-[#c0c0c0] text-[16px] tracking-wide select-none z-20 cursor-pointer"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4 }}
+                        onClick={handleInitialClick}
                       >
                         <span className="hidden sm:inline">click me.</span>
                         <span className="sm:hidden">tap me.</span>
