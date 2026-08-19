@@ -152,7 +152,7 @@ export default function App() {
               >
                 {/* Hero section — tap anywhere to reveal on mobile */}
                 <div
-                  className="relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white overflow-hidden"
+                  className={`relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white overflow-hidden ${stage === 'initial' ? 'cursor-pointer' : ''}`}
                 >
                   {/* "tap me" hint on mobile, "click me" on desktop */}
                   <AnimatePresence>
