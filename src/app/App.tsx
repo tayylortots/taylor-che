@@ -161,7 +161,7 @@ export default function App() {
                         key="click-hint"
                         className="absolute inset-0 flex items-center justify-center font-['Istok_Web'] text-[#c0c0c0] text-[16px] tracking-wide pointer-events-none select-none z-20"
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: isHoveringChar ? 0 : 1 }}
+                        animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4 }}
                       >
