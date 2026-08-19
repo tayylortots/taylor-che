@@ -178,7 +178,7 @@ export default function App() {
                         <motion.p
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 1.5, delay: 0.2 }}
+                          transition={{ duration: 1.8, delay: 0.1, ease: 'easeOut' }}
                           className="font-['Istok_Web'] font-bold text-[#afafaf] text-[36px] sm:text-[48px] md:text-[68px] leading-none uppercase -mb-4 sm:-mb-6"
                         >
                           TAYLOR
@@ -207,7 +207,7 @@ export default function App() {
                           opacity: stage !== 'initial' ? 1 : 0,
                           scale: 1,
                         }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 1.2, ease: 'easeOut' }}
                       >
                         谢
                       </motion.p>
@@ -237,7 +237,7 @@ export default function App() {
                         <motion.div
                           initial={{ opacity: 0, y: -20 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 1.5, delay: 0.4 }}
+                          transition={{ duration: 1.8, delay: 0.5, ease: 'easeOut' }}
                           className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8 md:mt-12 pointer-events-auto relative z-20"
                         >
                           <span className="font-['Istok_Web'] text-[#afafaf] text-[18px] sm:text-[20px] md:text-[24px]">is a...</span>
@@ -269,7 +269,7 @@ export default function App() {
                         className="flex absolute bottom-[5%] left-1/2 -translate-x-1/2 sm:left-auto sm:right-[5%] sm:translate-x-0 flex-col items-center gap-1 pointer-events-none z-50"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, delay: 0.8 }}
+                        transition={{ duration: 1.8, delay: 0.9, ease: 'easeOut' }}
                       >
                         <span className="font-['Istok_Web'] text-[#afafaf] text-[14px] tracking-wide">scroll down</span>
                         <motion.svg
