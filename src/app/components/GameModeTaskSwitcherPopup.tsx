@@ -223,26 +223,37 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
   }, [hasScrolled]);
 
   useEffect(() => {
-    const selectors = ['.hide-scrollbar', '[data-custom-scrollbar]', '[data-generate-button]', '[data-scroll-indicator]'];
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      selectors.forEach(sel => {
-        const el = document.querySelector(sel) as HTMLElement;
-        if (el) el.style.overflow === '' ? el.style.display = 'none' : el.style.overflow = 'hidden';
-      });
+      const mainScrollContainer = document.querySelector('.hide-scrollbar') as HTMLElement;
+      if (mainScrollContainer) mainScrollContainer.style.overflow = 'hidden';
+      const customScrollbar = document.querySelector('[data-custom-scrollbar]') as HTMLElement;
+      if (customScrollbar) customScrollbar.style.display = 'none';
+      const generateButton = document.querySelector('[data-generate-button]') as HTMLElement;
+      if (generateButton) generateButton.style.display = 'none';
+      const scrollIndicator = document.querySelector('[data-scroll-indicator]') as HTMLElement;
+      if (scrollIndicator) scrollIndicator.style.display = 'none';
     } else {
       document.body.style.overflow = '';
-      selectors.forEach(sel => {
-        const el = document.querySelector(sel) as HTMLElement;
-        if (el) { el.style.overflow = ''; el.style.display = ''; }
-      });
+      const mainScrollContainer = document.querySelector('.hide-scrollbar') as HTMLElement;
+      if (mainScrollContainer) mainScrollContainer.style.overflow = '';
+      const customScrollbar = document.querySelector('[data-custom-scrollbar]') as HTMLElement;
+      if (customScrollbar) customScrollbar.style.display = '';
+      const generateButton = document.querySelector('[data-generate-button]') as HTMLElement;
+      if (generateButton) generateButton.style.display = '';
+      const scrollIndicator = document.querySelector('[data-scroll-indicator]') as HTMLElement;
+      if (scrollIndicator) scrollIndicator.style.display = '';
     }
     return () => {
       document.body.style.overflow = '';
-      selectors.forEach(sel => {
-        const el = document.querySelector(sel) as HTMLElement;
-        if (el) { el.style.overflow = ''; el.style.display = ''; }
-      });
+      const mainScrollContainer = document.querySelector('.hide-scrollbar') as HTMLElement;
+      if (mainScrollContainer) mainScrollContainer.style.overflow = '';
+      const customScrollbar = document.querySelector('[data-custom-scrollbar]') as HTMLElement;
+      if (customScrollbar) customScrollbar.style.display = '';
+      const generateButton = document.querySelector('[data-generate-button]') as HTMLElement;
+      if (generateButton) generateButton.style.display = '';
+      const scrollIndicator = document.querySelector('[data-scroll-indicator]') as HTMLElement;
+      if (scrollIndicator) scrollIndicator.style.display = '';
     };
   }, [isOpen]);
 
