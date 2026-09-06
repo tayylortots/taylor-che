@@ -4,8 +4,13 @@ import { HandheldPopup } from './HandheldPopup';
 import { BobsEntertainmentPopup } from './BobsEntertainmentPopup';
 import { XboxGameArtPopup } from './XboxGameArtPopup';
 import { UclaLibraryPopup } from './UclaLibraryPopup';
+import { GameModeTaskSwitcherPopup } from './GameModeTaskSwitcherPopup';
 
 const projects = [
+  {
+    title: "Game Mode Task Switcher",
+    description: "First designer to collaborate with Windows to make task switching a handheld-friendly experience.",
+  },
   {
     title: "Improving UCLA Library's search experience",
     description: "Guiding students to advanced search when results fall short.",
@@ -46,6 +51,7 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
   const [isBobsEntertainmentPopupOpen, setIsBobsEntertainmentPopupOpen] = useState(false);
   const [isXboxGameArtPopupOpen, setIsXboxGameArtPopupOpen] = useState(false);
   const [isUclaLibraryPopupOpen, setIsUclaLibraryPopupOpen] = useState(false);
+  const [isGameModeTaskSwitcherPopupOpen, setIsGameModeTaskSwitcherPopupOpen] = useState(false);
 
   const handlePopupChange = (isOpen: boolean) => {
     setIsHandheldPopupOpen(isOpen);
@@ -64,6 +70,11 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
 
   const handleUclaLibraryPopupChange = (isOpen: boolean) => {
     setIsUclaLibraryPopupOpen(isOpen);
+    onPopupChange(isOpen);
+  };
+
+  const handleGameModeTaskSwitcherPopupChange = (isOpen: boolean) => {
+    setIsGameModeTaskSwitcherPopupOpen(isOpen);
     onPopupChange(isOpen);
   };
 
@@ -104,6 +115,8 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
                   handleXboxGameArtPopupChange(true);
                 } else if (project.title === "Improving UCLA Library's search experience") {
                   handleUclaLibraryPopupChange(true);
+                } else if (project.title === "Game Mode Task Switcher") {
+                  handleGameModeTaskSwitcherPopupChange(true);
                 }
               }}
             >
@@ -150,6 +163,12 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
       <UclaLibraryPopup 
         isOpen={isUclaLibraryPopupOpen} 
         onClose={() => handleUclaLibraryPopupChange(false)} 
+      />
+
+      {/* Game Mode Task Switcher Popup */}
+      <GameModeTaskSwitcherPopup 
+        isOpen={isGameModeTaskSwitcherPopupOpen} 
+        onClose={() => handleGameModeTaskSwitcherPopupChange(false)} 
       />
     </div>
   );
