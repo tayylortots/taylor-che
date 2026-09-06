@@ -57,5 +57,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  assetsInclude: ['**/*.svg', '**/*.csv'],
+  assetsInclude: ['**/*.svg', '**/*.csv', '**/*.gif', '**/*.png', '**/*.jpg', '**/*.jpeg'],
 })
