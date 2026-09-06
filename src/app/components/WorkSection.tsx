@@ -8,7 +8,7 @@ import { GameModeTaskSwitcherPopup } from './GameModeTaskSwitcherPopup';
 
 const projects = [
   {
-    title: "Game Mode Task Switcher",
+    title: "Making Task Switcher a full-screen experience",
     description: "First designer to collaborate with Windows to make task switching a handheld-friendly experience.",
   },
   {
@@ -115,7 +115,7 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
                   handleXboxGameArtPopupChange(true);
                 } else if (project.title === "Improving UCLA Library's search experience") {
                   handleUclaLibraryPopupChange(true);
-                } else if (project.title === "Game Mode Task Switcher") {
+                } else if (project.title === "Making Task Switcher a full-screen experience") {
                   handleGameModeTaskSwitcherPopupChange(true);
                 }
               }}

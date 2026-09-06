@@ -301,7 +301,7 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
 
                 <Header />
 
-                <p className="font-['Istok_Web'] leading-[normal] min-w-full not-italic relative shrink-0 text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] w-[min-content] whitespace-pre-wrap">Game Mode Task Switcher</p>
+                <p className="font-['Istok_Web'] leading-[normal] min-w-full not-italic relative shrink-0 text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] w-[min-content] whitespace-pre-wrap">Making Task Switcher a full-screen experience</p>
 
                 <HeroImage />
 
