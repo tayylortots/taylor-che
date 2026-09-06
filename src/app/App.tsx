@@ -107,7 +107,7 @@ export default function App() {
       {/* Main Card */}
       <motion.div
         layout
-        className="relative w-[95vw] sm:w-[90vw] max-w-[1829px] h-[95vh] sm:h-[90vh] max-h-[972px] rounded-[12px] sm:rounded-[20px] shadow-[0px_4px_27.1px_2px_rgba(200,200,200,0.12)] isolate overflow-hidden" 
+        className="relative w-[95vw] sm:w-[90vw] max-w-[1829px] h-[95vh] sm:h-[90vh] max-h-[972px] rounded-[12px] sm:rounded-[20px] shadow-[0px_4px_27.1px_2px_rgba(200,200,200,0.12)] isolate" style={{ overflow: "clip" }} 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
