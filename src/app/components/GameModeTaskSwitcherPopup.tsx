@@ -26,10 +26,10 @@ function Header() {
 // Hero image
 function HeroImage() {
   return (
-    <div className="bg-[#1a1a2e] h-[200px] sm:h-[280px] md:h-[336px] overflow-clip relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full flex items-center justify-center">
+    <div className="bg-[#1a1a2e] overflow-clip relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
       <img
         alt="Xbox Ally Game Mode Task Switcher"
-        className="w-full h-full object-cover pointer-events-none"
+        className="w-full h-auto object-contain pointer-events-none"
         src={heroImage}
       />
     </div>
