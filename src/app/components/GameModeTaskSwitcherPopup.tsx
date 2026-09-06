@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import Maximize from "../../imports/Maximize2";
 import Minimize from "../../imports/Minimize";
 import heroImage from "../../assets/hero_image.png";
@@ -247,7 +246,7 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
     };
   }, [isOpen]);
 
-  return createPortal(
+  return (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -258,7 +257,7 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-[199]"
+            className="fixed inset-0 bg-black/50 z-[100]"
           />
 
           {/* Modal */}
@@ -267,7 +266,7 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className={`fixed z-[200] bg-white shadow-[0px_4px_27.1px_0px_rgba(200,200,200,0.08)] overflow-hidden
+            className={`fixed z-[100] bg-white shadow-[0px_4px_27.1px_0px_rgba(200,200,200,0.08)] overflow-hidden
               ${isExpanded
                 ? 'inset-0 m-0'
                 : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[88vw] sm:w-[88vw] md:w-[85vw] max-w-[900px] h-[75vh] sm:h-[92vh] md:h-[85vh] rounded-[12px] sm:rounded-[20px] md:rounded-[30px] lg:rounded-[40px]'
@@ -333,7 +332,6 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
           </motion.div>
         </>
       )}
-    </AnimatePresence>,
-    document.body
+    </AnimatePresence>
   );
 }
