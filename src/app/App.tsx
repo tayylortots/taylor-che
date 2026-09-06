@@ -169,8 +169,8 @@ export default function App() {
                           onClick={handleInitialClick}
                           className="font-['Istok_Web'] text-[#c0c0c0] text-[16px] tracking-wide select-none cursor-pointer px-4 py-2"
                         >
-                          <span className="hidden sm:inline">click anywhere.</span>
-                          <span className="sm:hidden">tap anywhere.</span>
+                          <span className="hidden sm:inline">click me.</span>
+                          <span className="sm:hidden">tap me.</span>
                         </button>
                       </motion.div>
                     )}
