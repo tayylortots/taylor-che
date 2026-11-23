@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { HandheldPopup } from './HandheldPopup';
 import { BobsEntertainmentPopup } from './BobsEntertainmentPopup';
 import { XboxGameArtPopup } from './XboxGameArtPopup';
@@ -60,22 +60,35 @@ function slugFromPath(pathname: string): string | null {
 }
 
 function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopupChange: (isOpen: boolean) => void }) {
-  const initialSlug = slugFromPath(window.location.pathname);
-  const [isHandheldPopupOpen, setIsHandheldPopupOpen] = useState(initialSlug === 'handheld-compatibility');
-  const [isBobsEntertainmentPopupOpen, setIsBobsEntertainmentPopupOpen] = useState(initialSlug === 'bobs-entertainment');
-  const [isXboxGameArtPopupOpen, setIsXboxGameArtPopupOpen] = useState(initialSlug === 'xbox-game-art');
-  const [isUclaLibraryPopupOpen, setIsUclaLibraryPopupOpen] = useState(initialSlug === 'ucla-library');
-  const [isGameModeTaskSwitcherPopupOpen, setIsGameModeTaskSwitcherPopupOpen] = useState(initialSlug === 'task-switcher');
+  const [activeSlug, setActiveSlug] = useState<string | null>(
+    () => slugFromPath(window.location.pathname)
+  );
+  const prevSlugRef = useRef<string | null>(activeSlug);
+  const savedScrollRef = useRef<number | null>(null);
 
-  // Open exactly the case study that matches the current URL (or none)
+  const getScroller = () => document.querySelector('.hide-scrollbar') as HTMLElement | null;
+
+  // Show the case study that matches the current URL (or the index when none)
   const applyPath = (pathname: string) => {
     const slug = slugFromPath(pathname);
-    setIsHandheldPopupOpen(slug === 'handheld-compatibility');
-    setIsBobsEntertainmentPopupOpen(slug === 'bobs-entertainment');
-    setIsXboxGameArtPopupOpen(slug === 'xbox-game-art');
-    setIsUclaLibraryPopupOpen(slug === 'ucla-library');
-    setIsGameModeTaskSwitcherPopupOpen(slug === 'task-switcher');
+    const prev = prevSlugRef.current;
+    if (slug === prev) return;
+
+    const scroller = getScroller();
+    if (slug && !prev && scroller) savedScrollRef.current = scroller.scrollTop;
+    prevSlugRef.current = slug;
+
+    setActiveSlug(slug);
     onPopupChange(slug !== null);
+
+    // Don't touch scrolling when the user is leaving for another tab (e.g. /contact)
+    if (!slug && pathname.startsWith('/contact')) return;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const el = getScroller();
+      if (!el) return;
+      const top = slug ? 0 : (savedScrollRef.current ?? el.clientHeight);
+      el.scrollTo({ top, behavior: 'instant' as ScrollBehavior });
+    }));
   };
 
   const openCase = (title: string) => {
@@ -104,6 +117,26 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
 
   return (
     <div className="w-full">
+      {activeSlug ? (
+        <div className="w-full max-w-[900px] mx-auto">
+          <button
+            onClick={closeCase}
+            className="group flex items-center gap-[8px] mb-[24px] sm:mb-[32px] font-['Istok_Web'] text-[#989898] text-[14px] sm:text-[16px] md:text-[18px] hover:opacity-70 transition-opacity cursor-pointer"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:-translate-x-[2px]">
+              <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            index
+          </button>
+
+          <HandheldPopup inline isOpen={activeSlug === 'handheld-compatibility'} onClose={closeCase} />
+          <BobsEntertainmentPopup inline isOpen={activeSlug === 'bobs-entertainment'} onClose={closeCase} />
+          <XboxGameArtPopup inline isOpen={activeSlug === 'xbox-game-art'} onClose={closeCase} />
+          <UclaLibraryPopup inline isOpen={activeSlug === 'ucla-library'} onClose={closeCase} />
+          <GameModeTaskSwitcherPopup inline isOpen={activeSlug === 'task-switcher'} onClose={closeCase} />
+        </div>
+      ) : (
+        <>
       {/* Index Title */}
       <motion.div
         className="flex flex-col gap-[16px] items-start relative w-full mb-[20px] sm:mb-[25px] md:mb-[33px] mt-[40px] sm:mt-[50px] md:mt-[60px]"
@@ -153,35 +186,8 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
         ))}
       </div>
 
-      {/* Handheld Popup */}
-      <HandheldPopup 
-        isOpen={isHandheldPopupOpen} 
-        onClose={closeCase} 
-      />
-
-      {/* Bobs Entertainment Popup */}
-      <BobsEntertainmentPopup 
-        isOpen={isBobsEntertainmentPopupOpen} 
-        onClose={closeCase} 
-      />
-
-      {/* Xbox Game Art Popup */}
-      <XboxGameArtPopup 
-        isOpen={isXboxGameArtPopupOpen} 
-        onClose={closeCase} 
-      />
-
-      {/* UCLA Library Popup */}
-      <UclaLibraryPopup 
-        isOpen={isUclaLibraryPopupOpen} 
-        onClose={closeCase} 
-      />
-
-      {/* Game Mode Task Switcher Popup */}
-      <GameModeTaskSwitcherPopup 
-        isOpen={isGameModeTaskSwitcherPopupOpen} 
-        onClose={closeCase} 
-      />
+        </>
+      )}
     </div>
   );
 }

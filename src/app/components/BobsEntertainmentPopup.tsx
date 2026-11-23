@@ -57,10 +57,12 @@ function Frame4() {
 interface BobsEntertainmentPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  inline?: boolean;
 }
 
-export function BobsEntertainmentPopup({ isOpen, onClose }: BobsEntertainmentPopupProps) {
+export function BobsEntertainmentPopup({ isOpen, onClose, inline = false }: BobsEntertainmentPopupProps) {
   useEffect(() => {
+    if (inline) return;
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       const mainScrollContainer = document.querySelector('.hide-scrollbar') as HTMLElement;
@@ -94,6 +96,50 @@ export function BobsEntertainmentPopup({ isOpen, onClose }: BobsEntertainmentPop
       if (scrollIndicator) scrollIndicator.style.display = '';
     };
   }, [isOpen]);
+
+  // Page mode: render the case study directly inside the page (no modal)
+  if (inline) {
+    if (!isOpen) return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
+      >
+        <Frame />
+        <div className="flex flex-col md:flex-row gap-[24px] sm:gap-[36px] md:gap-[48px] w-full">
+          <div className="flex-1">
+            <div className="flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px]">
+                    <div className="relative shrink-0 w-full aspect-square max-w-[455px]">
+                      <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid1} />
+                    </div>
+                    
+                    <div className="relative shrink-0 w-full aspect-square max-w-[455px]">
+                      <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid2} />
+                    </div>
+
+                    {/* Video with controls */}
+                    <div className="relative shrink-0 w-full max-w-[455px] rounded-[12px] overflow-hidden bg-black">
+                      <video
+                        controls
+                        className="w-full h-auto"
+                        playsInline
+                        preload="metadata"
+                      >
+                        <source src="/bobs_entertainment_video.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </div>
+          </div>
+          <div className="shrink-0 flex items-start md:items-center">
+            <Frame4 />
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <AnimatePresence>

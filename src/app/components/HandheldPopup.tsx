@@ -43,11 +43,13 @@ function ExternalLink() {
 interface HandheldPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  inline?: boolean;
 }
 
-export function HandheldPopup({ isOpen, onClose }: HandheldPopupProps) {
+export function HandheldPopup({ isOpen, onClose, inline = false }: HandheldPopupProps) {
   // Hide main app scrollbar, generate button, and scroll indicator when modal is open
   useEffect(() => {
+    if (inline) return;
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       
@@ -114,6 +116,29 @@ export function HandheldPopup({ isOpen, onClose }: HandheldPopupProps) {
       }
     };
   }, [isOpen]);
+
+  // Page mode: render the case study directly inside the page (no modal)
+  if (inline) {
+    if (!isOpen) return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
+      >
+        <Frame />
+        <div className="aspect-[1920/1080] relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
+          <ImageWithFallback
+            alt="Handheld Compatibility Program interface"
+            className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full"
+            src={imgHandheldCompatibilityGif}
+          />
+        </div>
+        <ExternalLink />
+      </motion.div>
+    );
+  }
 
   return (
     <AnimatePresence>

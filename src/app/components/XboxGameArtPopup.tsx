@@ -21,11 +21,13 @@ function Frame() {
 interface XboxGameArtPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  inline?: boolean;
 }
 
-export function XboxGameArtPopup({ isOpen, onClose }: XboxGameArtPopupProps) {
+export function XboxGameArtPopup({ isOpen, onClose, inline = false }: XboxGameArtPopupProps) {
   // Hide main app scrollbar, generate button, and scroll indicator when modal is open
   useEffect(() => {
+    if (inline) return;
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       
@@ -92,6 +94,29 @@ export function XboxGameArtPopup({ isOpen, onClose }: XboxGameArtPopupProps) {
       }
     };
   }, [isOpen]);
+
+  // Page mode: render the case study directly inside the page (no modal)
+  if (inline) {
+    if (!isOpen) return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
+      >
+        <Frame />
+        <div className="flex flex-col md:flex-row gap-[24px] sm:gap-[36px] md:gap-[48px] w-full items-start">
+          <div className="relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full md:w-[574px] h-[280px] sm:h-[400px] md:h-[560px]">
+            <img alt="Xbox Game Art Updater plugin interface" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full" src={imgGameArtUpdater1} />
+          </div>
+          <div className="flex-1 font-['Istok_Web'] leading-[normal] not-italic text-[#989898] text-[14px] sm:text-[15px] md:text-[16px]">
+            Accelerating personal workflow to update game cards within Figma.
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
 
   return (
     <AnimatePresence>

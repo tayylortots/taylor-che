@@ -204,9 +204,10 @@ function Impact() {
 interface GameModeTaskSwitcherPopupProps {
   isOpen: boolean;
   onClose: () => void;
+  inline?: boolean;
 }
 
-export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitcherPopupProps) {
+export function GameModeTaskSwitcherPopup({ isOpen, onClose, inline = false }: GameModeTaskSwitcherPopupProps) {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -223,6 +224,7 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
   }, [hasScrolled]);
 
   useEffect(() => {
+    if (inline) return;
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       const mainScrollContainer = document.querySelector('.hide-scrollbar') as HTMLElement;
@@ -256,6 +258,33 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose }: GameModeTaskSwitc
       if (scrollIndicator) scrollIndicator.style.display = '';
     };
   }, [isOpen]);
+
+  // Page mode: render the case study directly inside the page (no modal)
+  if (inline) {
+    if (!isOpen) return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
+      >
+<Header />
+
+                <p className="font-['Istok_Web'] leading-[normal] min-w-full not-italic relative shrink-0 text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] w-[min-content] whitespace-pre-wrap">Making Task Switcher a full-screen experience</p>
+
+                <HeroImage />
+
+                <div className="content-stretch flex flex-col gap-[48px] sm:gap-[70px] md:gap-[100px] items-start relative shrink-0 w-full">
+                  <OverviewOutcome />
+                  <Problem />
+                  <Solution />
+                  <Considerations />
+                  <Impact />
+                </div>
+      </motion.div>
+    );
+  }
 
   return (
     <AnimatePresence>
