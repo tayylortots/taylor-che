@@ -1,5 +1,5 @@
 import { CustomScrollbar } from "./components/CustomScrollbar";
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CustomCursor } from './components/CustomCursor';
 import { Bubble } from './components/Bubble';
@@ -13,11 +13,17 @@ export default function App() {
   const [stage, setStage] = useState<'initial' | 'revealed' | 'generating'>('initial');
   const [isHoveringChar, setIsHoveringChar] = useState(false);
   const [visibleBubbles, setVisibleBubbles] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<'work' | 'contact'>('work');
+  const [activeTab, setActiveTab] = useState<'work' | 'contact'>(
+    () => (window.location.pathname.startsWith('/contact') ? 'contact' : 'work')
+  );
   const [footerRevealed, setFooterRevealed] = useState(false);
   const [workSectionRevealed, setWorkSectionRevealed] = useState(false);
-  const [contactSectionRevealed, setContactSectionRevealed] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [contactSectionRevealed, setContactSectionRevealed] = useState(
+    () => window.location.pathname.startsWith('/contact')
+  );
+  const [isPopupOpen, setIsPopupOpen] = useState(
+    () => window.location.pathname.startsWith('/work/')
+  );
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
@@ -25,12 +31,32 @@ export default function App() {
 
 
   const handleTabChange = (tab: 'work' | 'contact') => {
+    const path = tab === 'contact' ? '/contact' : '/';
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
     setActiveTab(tab);
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     }
     if (tab === 'contact') setContactSectionRevealed(true);
   };
+
+  // Browser back / forward buttons
+  useEffect(() => {
+    const onPopState = () => {
+      const path = window.location.pathname;
+      const tab = path.startsWith('/contact') ? 'contact' : 'work';
+      setActiveTab(tab);
+      setIsPopupOpen(path.startsWith('/work/'));
+      if (tab === 'contact') setContactSectionRevealed(true);
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const handleScrollToTop = () => {
     if (scrollContainerRef.current) {
