@@ -25,6 +25,15 @@ export default function App() {
     () => window.location.pathname.startsWith('/work/')
   );
 
+  const [navHidden, setNavHidden] = useState(false);
+  const lastScrollTopRef = useRef(0);
+  const navWrapRef = useRef<HTMLDivElement>(null);
+
+  // While the nav is faded out, make it non-interactive too
+  useEffect(() => {
+    if (navWrapRef.current) (navWrapRef.current as any).inert = navHidden;
+  }, [navHidden]);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bubbleContainerRef = useRef<HTMLDivElement>(null);
   const workSectionRef = useRef<HTMLDivElement>(null);
@@ -38,6 +47,7 @@ export default function App() {
       window.dispatchEvent(new PopStateEvent('popstate'));
     }
     setIsPopupOpen(false);
+    setNavHidden(false);
     setActiveTab(tab);
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
@@ -51,6 +61,7 @@ export default function App() {
       const path = window.location.pathname;
       const tab = path.startsWith('/contact') ? 'contact' : 'work';
       setActiveTab(tab);
+      setNavHidden(false);
       setIsPopupOpen(path.startsWith('/work/'));
       if (tab === 'contact') setContactSectionRevealed(true);
       if (scrollContainerRef.current) {
@@ -75,6 +86,13 @@ export default function App() {
     if (!scrolledToBottom) setFooterRevealed(false);
     if (scrollTop > clientHeight * 0.5 && !workSectionRevealed) setWorkSectionRevealed(true);
     if (scrollTop > clientHeight * 0.5 && !contactSectionRevealed) setContactSectionRevealed(true);
+
+    // Fade the nav out when scrolling down, back in when scrolling up
+    const delta = scrollTop - lastScrollTopRef.current;
+    if (scrollTop < 40) setNavHidden(false);
+    else if (delta > 6) setNavHidden(true);
+    else if (delta < -6) setNavHidden(false);
+    lastScrollTopRef.current = scrollTop;
   };
 
   const orderedBubbles = [
@@ -144,9 +162,11 @@ export default function App() {
         <AnimatePresence>
           {true && (
             <motion.div
+              ref={navWrapRef}
               initial={{ opacity: 1 }}
+              animate={{ opacity: navHidden ? 0 : 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="absolute inset-x-0 top-0 z-50 pointer-events-none"
               onClick={(e) => e.stopPropagation()}
             >
