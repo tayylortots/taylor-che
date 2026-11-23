@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { Reveal } from './Reveal';
 import { useState, useRef, useEffect } from 'react';
 import Maximize from "../../imports/Maximize2";
 import Minimize from "../../imports/Minimize";
@@ -264,23 +265,20 @@ export function GameModeTaskSwitcherPopup({ isOpen, onClose, inline = false }: G
     if (!isOpen) return null;
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
       >
-<Header />
+<Reveal><Header /></Reveal>
 
                 <p className="font-['Istok_Web'] leading-[normal] min-w-full not-italic relative shrink-0 text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] w-[min-content] whitespace-pre-wrap">Making Task Switcher a full-screen experience</p>
 
-                <HeroImage />
+                <Reveal><HeroImage /></Reveal>
 
                 <div className="content-stretch flex flex-col gap-[48px] sm:gap-[70px] md:gap-[100px] items-start relative shrink-0 w-full">
-                  <OverviewOutcome />
-                  <Problem />
-                  <Solution />
-                  <Considerations />
-                  <Impact />
+                  <Reveal><OverviewOutcome /></Reveal>
+                  <Reveal><Problem /></Reveal>
+                  <Reveal><Solution /></Reveal>
+                  <Reveal><Considerations /></Reveal>
+                  <Reveal><Impact /></Reveal>
                 </div>
       </motion.div>
     );

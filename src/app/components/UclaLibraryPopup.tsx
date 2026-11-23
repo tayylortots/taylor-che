@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { Reveal } from './Reveal';
 import { useState, useRef, useEffect } from 'react';
 import svgPaths from "../../imports/svg-o69cactyx9";
 import Maximize from "../../imports/Maximize2";
@@ -492,27 +493,24 @@ export function UclaLibraryPopup({ isOpen, onClose, inline = false }: UclaLibrar
     if (!isOpen) return null;
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
       >
-<Frame5 />
+<Reveal><Frame5 /></Reveal>
                 
                 <p className="font-['Istok_Web'] leading-[normal] min-w-full not-italic relative shrink-0 text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] w-[min-content] whitespace-pre-wrap">Encouraging students to refine their search when results fall short.</p>
                 
-                <Frame2 />
+                <Reveal><Frame2 /></Reveal>
                 
                 {/* All content sections */}
                 <div className="content-stretch flex flex-col gap-[48px] sm:gap-[70px] md:gap-[100px] items-start relative shrink-0 w-full">
-                  <Frame6 />
-                  <Frame25 />
-                  <Frame44 />
-                  <Frame18 />
-                  <Frame19 />
-                  <Frame27 />
-                  <Frame28 />
-                  <Frame39 />
+                  <Reveal><Frame6 /></Reveal>
+                  <Reveal><Frame25 /></Reveal>
+                  <Reveal><Frame44 /></Reveal>
+                  <Reveal><Frame18 /></Reveal>
+                  <Reveal><Frame19 /></Reveal>
+                  <Reveal><Frame27 /></Reveal>
+                  <Reveal><Frame28 /></Reveal>
+                  <Reveal><Frame39 /></Reveal>
                 </div>
       </motion.div>
     );

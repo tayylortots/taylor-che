@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { Reveal } from './Reveal';
 import imgGameArtUpdater1 from "figma:asset/00bcda6a058c32edefb1e79dc1d0e87fa730fd0f.png";
 import { useEffect } from 'react';
 
@@ -100,19 +101,16 @@ export function XboxGameArtPopup({ isOpen, onClose, inline = false }: XboxGameAr
     if (!isOpen) return null;
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
       >
-        <Frame />
+        <Reveal><Frame /></Reveal>
         <div className="flex flex-col md:flex-row gap-[24px] sm:gap-[36px] md:gap-[48px] w-full items-start">
-          <div className="relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full md:w-[574px] h-[280px] sm:h-[400px] md:h-[560px]">
+          <Reveal className="relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full md:w-[574px] h-[280px] sm:h-[400px] md:h-[560px]">
             <img alt="Xbox Game Art Updater plugin interface" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full" src={imgGameArtUpdater1} />
-          </div>
-          <div className="flex-1 font-['Istok_Web'] leading-[normal] not-italic text-[#989898] text-[14px] sm:text-[15px] md:text-[16px]">
+          </Reveal>
+          <Reveal className="flex-1 font-['Istok_Web'] leading-[normal] not-italic text-[#989898] text-[14px] sm:text-[15px] md:text-[16px]">
             Accelerating personal workflow to update game cards within Figma.
-          </div>
+          </Reveal>
         </div>
       </motion.div>
     );

@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { Reveal } from './Reveal';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import imgPolaroid1 from "figma:asset/1cc8a2ee1d5d8f52b0d3f2c8b21e2d8e7cad3e1b.png";
 import imgPolaroid2 from "figma:asset/4e80e88c3e88a6a86e833fb5db8c7ba3d4cf1c3a.png";
@@ -102,25 +103,22 @@ export function BobsEntertainmentPopup({ isOpen, onClose, inline = false }: Bobs
     if (!isOpen) return null;
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
       >
-        <Frame />
+        <Reveal><Frame /></Reveal>
         <div className="flex flex-col md:flex-row gap-[24px] sm:gap-[36px] md:gap-[48px] w-full">
           <div className="flex-1">
             <div className="flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px]">
-                    <div className="relative shrink-0 w-full aspect-square max-w-[455px]">
+                    <Reveal className="relative shrink-0 w-full aspect-square max-w-[455px]">
                       <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid1} />
-                    </div>
+                    </Reveal>
                     
-                    <div className="relative shrink-0 w-full aspect-square max-w-[455px]">
+                    <Reveal className="relative shrink-0 w-full aspect-square max-w-[455px]">
                       <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid2} />
-                    </div>
+                    </Reveal>
 
                     {/* Video with controls */}
-                    <div className="relative shrink-0 w-full max-w-[455px] rounded-[12px] overflow-hidden bg-black">
+                    <Reveal className="relative shrink-0 w-full max-w-[455px] rounded-[12px] overflow-hidden bg-black">
                       <video
                         controls
                         className="w-full h-auto"
@@ -130,11 +128,11 @@ export function BobsEntertainmentPopup({ isOpen, onClose, inline = false }: Bobs
                         <source src="/bobs_entertainment_video.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
-                    </div>
+                    </Reveal>
                   </div>
           </div>
           <div className="shrink-0 flex items-start md:items-center">
-            <Frame4 />
+            <Reveal full={false} delay={0.15}><Frame4 /></Reveal>
           </div>
         </div>
       </motion.div>

@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import { Reveal } from './Reveal';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import svgPaths from "../../imports/svg-8dvhuk7ghz";
 import imgHandheldCompatibilityGif from "figma:asset/a0bd4d9bfd5b68d04c56e87ed54843c28e9d1ecf.gif";
@@ -122,20 +123,17 @@ export function HandheldPopup({ isOpen, onClose, inline = false }: HandheldPopup
     if (!isOpen) return null;
     return (
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="content-stretch flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px] items-end w-full max-w-[900px] mx-auto pb-[32px] sm:pb-[36px] md:pb-[40px]"
       >
-        <Frame />
-        <div className="aspect-[1920/1080] relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
+        <Reveal><Frame /></Reveal>
+        <Reveal className="aspect-[1920/1080] relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
           <ImageWithFallback
             alt="Handheld Compatibility Program interface"
             className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full"
             src={imgHandheldCompatibilityGif}
           />
-        </div>
-        <ExternalLink />
+        </Reveal>
+        <Reveal className="flex justify-end"><ExternalLink /></Reveal>
       </motion.div>
     );
   }
