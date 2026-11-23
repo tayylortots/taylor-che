@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HandheldPopup } from './HandheldPopup';
 import { BobsEntertainmentPopup } from './BobsEntertainmentPopup';
 import { XboxGameArtPopup } from './XboxGameArtPopup';
@@ -46,37 +46,61 @@ function ArrowUpRight() {
   );
 }
 
+const CASE_SLUGS: Record<string, string> = {
+  "Making Task Switcher a full-screen experience": "task-switcher",
+  "Improving UCLA Library's search experience": "ucla-library",
+  "Bobs Entertainment": "bobs-entertainment",
+  "Xbox game art updater": "xbox-game-art",
+  "Handheld Compatibility Program": "handheld-compatibility",
+};
+
+function slugFromPath(pathname: string): string | null {
+  const match = pathname.match(/^\/work\/([^/]+)/);
+  return match ? match[1] : null;
+}
+
 function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopupChange: (isOpen: boolean) => void }) {
-  const [isHandheldPopupOpen, setIsHandheldPopupOpen] = useState(false);
-  const [isBobsEntertainmentPopupOpen, setIsBobsEntertainmentPopupOpen] = useState(false);
-  const [isXboxGameArtPopupOpen, setIsXboxGameArtPopupOpen] = useState(false);
-  const [isUclaLibraryPopupOpen, setIsUclaLibraryPopupOpen] = useState(false);
-  const [isGameModeTaskSwitcherPopupOpen, setIsGameModeTaskSwitcherPopupOpen] = useState(false);
+  const initialSlug = slugFromPath(window.location.pathname);
+  const [isHandheldPopupOpen, setIsHandheldPopupOpen] = useState(initialSlug === 'handheld-compatibility');
+  const [isBobsEntertainmentPopupOpen, setIsBobsEntertainmentPopupOpen] = useState(initialSlug === 'bobs-entertainment');
+  const [isXboxGameArtPopupOpen, setIsXboxGameArtPopupOpen] = useState(initialSlug === 'xbox-game-art');
+  const [isUclaLibraryPopupOpen, setIsUclaLibraryPopupOpen] = useState(initialSlug === 'ucla-library');
+  const [isGameModeTaskSwitcherPopupOpen, setIsGameModeTaskSwitcherPopupOpen] = useState(initialSlug === 'task-switcher');
 
-  const handlePopupChange = (isOpen: boolean) => {
-    setIsHandheldPopupOpen(isOpen);
-    onPopupChange(isOpen);
+  // Open exactly the case study that matches the current URL (or none)
+  const applyPath = (pathname: string) => {
+    const slug = slugFromPath(pathname);
+    setIsHandheldPopupOpen(slug === 'handheld-compatibility');
+    setIsBobsEntertainmentPopupOpen(slug === 'bobs-entertainment');
+    setIsXboxGameArtPopupOpen(slug === 'xbox-game-art');
+    setIsUclaLibraryPopupOpen(slug === 'ucla-library');
+    setIsGameModeTaskSwitcherPopupOpen(slug === 'task-switcher');
+    onPopupChange(slug !== null);
   };
 
-  const handleBobsEntertainmentPopupChange = (isOpen: boolean) => {
-    setIsBobsEntertainmentPopupOpen(isOpen);
-    onPopupChange(isOpen);
+  const openCase = (title: string) => {
+    const slug = CASE_SLUGS[title];
+    if (!slug) return;
+    window.history.pushState({ case: true }, '', `/work/${slug}`);
+    applyPath(window.location.pathname);
   };
 
-  const handleXboxGameArtPopupChange = (isOpen: boolean) => {
-    setIsXboxGameArtPopupOpen(isOpen);
-    onPopupChange(isOpen);
+  const closeCase = () => {
+    if (window.history.state?.case) {
+      // We pushed this entry ourselves, so going back restores the previous page
+      window.history.back();
+    } else {
+      // Landed directly on a case study URL: swap it for the index
+      window.history.replaceState({}, '', '/');
+      applyPath('/');
+    }
   };
 
-  const handleUclaLibraryPopupChange = (isOpen: boolean) => {
-    setIsUclaLibraryPopupOpen(isOpen);
-    onPopupChange(isOpen);
-  };
-
-  const handleGameModeTaskSwitcherPopupChange = (isOpen: boolean) => {
-    setIsGameModeTaskSwitcherPopupOpen(isOpen);
-    onPopupChange(isOpen);
-  };
+  useEffect(() => {
+    const onPopState = () => applyPath(window.location.pathname);
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   return (
     <div className="w-full">
@@ -106,19 +130,7 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
               }}
               animate={isVisible ? 'visible' : 'hidden'}
               transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 + index * 0.1 }}
-              onClick={() => {
-                if (project.title === "Handheld Compatibility Program") {
-                  handlePopupChange(true);
-                } else if (project.title === "Bobs Entertainment") {
-                  handleBobsEntertainmentPopupChange(true);
-                } else if (project.title === "Xbox game art updater") {
-                  handleXboxGameArtPopupChange(true);
-                } else if (project.title === "Improving UCLA Library's search experience") {
-                  handleUclaLibraryPopupChange(true);
-                } else if (project.title === "Making Task Switcher a full-screen experience") {
-                  handleGameModeTaskSwitcherPopupChange(true);
-                }
-              }}
+              onClick={() => openCase(project.title)}
             >
               <div className="flex flex-col font-['Istok_Web'] items-start leading-[normal] text-[#989898] flex-1 min-w-0 group-hover:opacity-70 transition-opacity">
                 <p className="text-[20px] sm:text-[28px] md:text-[36px] w-full mb-1 sm:mb-2">{project.title}</p>
@@ -144,31 +156,31 @@ function WorkContent({ isVisible, onPopupChange }: { isVisible: boolean; onPopup
       {/* Handheld Popup */}
       <HandheldPopup 
         isOpen={isHandheldPopupOpen} 
-        onClose={() => handlePopupChange(false)} 
+        onClose={closeCase} 
       />
 
       {/* Bobs Entertainment Popup */}
       <BobsEntertainmentPopup 
         isOpen={isBobsEntertainmentPopupOpen} 
-        onClose={() => handleBobsEntertainmentPopupChange(false)} 
+        onClose={closeCase} 
       />
 
       {/* Xbox Game Art Popup */}
       <XboxGameArtPopup 
         isOpen={isXboxGameArtPopupOpen} 
-        onClose={() => handleXboxGameArtPopupChange(false)} 
+        onClose={closeCase} 
       />
 
       {/* UCLA Library Popup */}
       <UclaLibraryPopup 
         isOpen={isUclaLibraryPopupOpen} 
-        onClose={() => handleUclaLibraryPopupChange(false)} 
+        onClose={closeCase} 
       />
 
       {/* Game Mode Task Switcher Popup */}
       <GameModeTaskSwitcherPopup 
         isOpen={isGameModeTaskSwitcherPopupOpen} 
-        onClose={() => handleGameModeTaskSwitcherPopupChange(false)} 
+        onClose={closeCase} 
       />
     </div>
   );
