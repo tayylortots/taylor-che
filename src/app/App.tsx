@@ -34,7 +34,10 @@ export default function App() {
     const path = tab === 'contact' ? '/contact' : '/';
     if (window.location.pathname !== path) {
       window.history.pushState({}, '', path);
+      // Let the work page know the URL changed (closes an open case study)
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
+    setIsPopupOpen(false);
     setActiveTab(tab);
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
@@ -139,7 +142,7 @@ export default function App() {
         transition={{ duration: 1 }}
       >
         <AnimatePresence>
-          {!isPopupOpen && (
+          {true && (
             <motion.div
               initial={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -175,6 +178,8 @@ export default function App() {
                 transition={{ duration: 0.25 }}
                 className="w-full"
               >
+                {!isPopupOpen && (
+                <>
                 {/* Hero section — tap anywhere to reveal on mobile */}
                 <div
                   className={`relative h-[90vh] max-h-[972px] w-full flex flex-col items-center justify-center bg-white overflow-hidden ${stage === 'initial' ? 'cursor-pointer' : ''}`}
@@ -334,6 +339,9 @@ export default function App() {
                     </AnimatePresence>
                   </div>
                 </div>
+
+                </>
+                )}
 
                 {/* Section 2 — Work list */}
                 <div className="relative bg-white min-h-[90vh] z-20 mb-[90vh]">
