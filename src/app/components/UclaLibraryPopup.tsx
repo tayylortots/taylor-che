@@ -33,7 +33,7 @@ function Frame2() {
     <div className="bg-[#f9f8f8] h-[200px] sm:h-[280px] md:h-[336px] overflow-clip relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full flex items-center justify-center p-[16px] sm:p-[20px] md:p-[24px]">
       <div className="relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] w-full max-w-[70%] sm:max-w-[60%] md:max-w-[473px] h-[70%] sm:h-[80%] md:h-[295px]" data-name="hero image">
         <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[6px] sm:rounded-[7px] md:rounded-[8px]">
-          <img alt="UCLA Library search interface" className="absolute h-[113.98%] left-0 max-w-none top-[-0.05%] w-full" src={imgHeroImage} />
+          <img loading="lazy" decoding="async" alt="UCLA Library search interface" className="absolute h-[113.98%] left-0 max-w-none top-[-0.05%] w-full" src={imgHeroImage} />
         </div>
       </div>
     </div>
@@ -130,7 +130,7 @@ function Frame16() {
     <div className="bg-[#f9f8f8] h-[180px] sm:h-[250px] md:h-[336px] overflow-clip relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
       <div className="absolute inset-[9.82%_21.93%_9.82%_21.83%] rounded-[4px] sm:rounded-[5px] md:rounded-[6px]" data-name="image 49">
         <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[4px] sm:rounded-[5px] md:rounded-[6px]">
-          <img alt="Search results example" className="absolute h-[116.38%] left-0 max-w-none top-[-10.34%] w-full" src={imgImage49} />
+          <img loading="lazy" decoding="async" alt="Search results example" className="absolute h-[116.38%] left-0 max-w-none top-[-10.34%] w-full" src={imgImage49} />
         </div>
       </div>
     </div>
@@ -250,7 +250,7 @@ function IdeaRow({ image, number, title }: { image: string; number: string; titl
   return (
     <div className="content-stretch flex flex-col sm:flex-row gap-[24px] sm:gap-[28px] md:gap-[40px] items-start sm:items-center relative shrink-0 w-full">
       <div className="bg-[#3b3b3b] h-[180px] sm:h-[260px] md:h-[336px] overflow-clip relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] shrink-0 w-full sm:w-[240px] md:w-[357px] flex items-center justify-center">
-        <img alt={`Idea ${number}`} className="max-w-[85%] max-h-[60%] object-contain pointer-events-none" src={image} />
+        <img loading="lazy" decoding="async" alt={`Idea ${number}`} className="max-w-[85%] max-h-[60%] object-contain pointer-events-none" src={image} />
       </div>
       <div className="content-stretch flex flex-col gap-[6px] sm:gap-[7px] md:gap-[8px] items-start justify-center leading-[18px] sm:leading-[20px] md:leading-[22px] min-h-px min-w-px relative text-[#989898] text-[12px] sm:text-[14px] md:text-[16px] tracking-[0.42px] sm:flex-[1_0_0]">
         <p className="font-['Istok_Web'] font-normal relative shrink-0 text-[#666]">{number}</p>
@@ -321,7 +321,7 @@ function Frame38() {
     <div className="bg-[#f9f8f8] min-h-[250px] sm:min-h-[320px] md:min-h-[389px] overflow-clip relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] w-full p-[16px] sm:p-[20px] md:p-[24px] flex items-center justify-center">
       <div className="relative w-full h-full flex flex-col gap-[16px] sm:gap-[20px] md:gap-[27px]">
         <div className="flex-1 relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] overflow-hidden flex items-center justify-center">
-          <img alt="Search results improvement" className="w-full h-auto object-contain pointer-events-none rounded-[6px] sm:rounded-[7px] md:rounded-[8px]" src={imgSearchResults211} />
+          <img loading="lazy" decoding="async" alt="Search results improvement" className="w-full h-auto object-contain pointer-events-none rounded-[6px] sm:rounded-[7px] md:rounded-[8px]" src={imgSearchResults211} />
         </div>
         <div className="flex flex-row gap-[16px] sm:gap-[24px] md:gap-[32px]">
           <div className="flex-1 flex gap-[6px] sm:gap-[8px] md:gap-[12px] items-start">
@@ -370,7 +370,7 @@ function Frame39() {
     <div className="content-stretch flex flex-col gap-[24px] sm:gap-[30px] md:gap-[38px] items-center justify-center relative shrink-0 w-full">
       <Frame40 />
       <div className="h-auto max-h-[250px] sm:max-h-[320px] md:max-h-[376px] relative shrink-0 w-full max-w-[450px] sm:max-w-[550px] md:max-w-[656px]" data-name="final image 1">
-        <img alt="Final design solution" className="w-full h-auto max-w-none object-cover pointer-events-none" src={imgFinalImage1} />
+        <img loading="lazy" decoding="async" alt="Final design solution" className="w-full h-auto max-w-none object-cover pointer-events-none" src={imgFinalImage1} />
       </div>
     </div>
   );

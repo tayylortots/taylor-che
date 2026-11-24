@@ -106,7 +106,7 @@ export function XboxGameArtPopup({ isOpen, onClose, inline = false }: XboxGameAr
         <Reveal><Frame /></Reveal>
         <div className="flex flex-col md:flex-row gap-[24px] sm:gap-[36px] md:gap-[48px] w-full items-start">
           <Reveal className="relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full md:w-[574px] h-[280px] sm:h-[400px] md:h-[560px]">
-            <img alt="Xbox Game Art Updater plugin interface" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full" src={imgGameArtUpdater1} />
+            <img loading="lazy" decoding="async" alt="Xbox Game Art Updater plugin interface" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full" src={imgGameArtUpdater1} />
           </Reveal>
           <Reveal className="flex-1 font-['Istok_Web'] leading-[normal] not-italic text-[#989898] text-[14px] sm:text-[15px] md:text-[16px]">
             Accelerating personal workflow to update game cards within Figma.
@@ -150,7 +150,7 @@ export function XboxGameArtPopup({ isOpen, onClose, inline = false }: XboxGameAr
               <div className="flex flex-col md:flex-row gap-[24px] sm:gap-[36px] md:gap-[48px] px-[24px] sm:px-[40px] md:px-[60px] pb-[24px] sm:pb-[32px] md:pb-[40px] flex-1 overflow-auto w-full items-center">
                 {/* Image */}
                 <div className="relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full md:w-[574px] h-[280px] sm:h-[400px] md:h-[560px]">
-                  <img alt="Xbox Game Art Updater plugin interface" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full" src={imgGameArtUpdater1} />
+                  <img loading="lazy" decoding="async" alt="Xbox Game Art Updater plugin interface" className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full" src={imgGameArtUpdater1} />
                 </div>
                 
                 {/* Text */}

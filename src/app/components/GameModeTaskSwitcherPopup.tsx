@@ -3,8 +3,8 @@ import { Reveal } from './Reveal';
 import { useState, useRef, useEffect } from 'react';
 import Maximize from "../../imports/Maximize2";
 import Minimize from "../../imports/Minimize";
-import heroImage from "../../assets/hero_image.png";
-import beforeImage from "../../assets/before_task_Switcher.png";
+import heroImage from "../../assets/hero_image.webp";
+import beforeImage from "../../assets/before_task_Switcher.webp";
 import afterGif from "../../assets/task_Switcher_Gif.gif";
 
 // Header breadcrumb
@@ -28,7 +28,7 @@ function Header() {
 function HeroImage() {
   return (
     <div className="bg-[#1a1a2e] overflow-clip relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
-      <img
+      <img decoding="async"
         alt="Xbox Ally Game Mode Task Switcher"
         className="w-full h-auto object-contain pointer-events-none"
         src={heroImage}
@@ -75,7 +75,7 @@ function Problem() {
         </p>
       </div>
       <div className="bg-[#1a1a2e] overflow-clip relative rounded-[8px] shrink-0 w-full">
-        <img alt="Windows Task Switcher before redesign" className="w-full h-auto object-cover pointer-events-none rounded-[8px]" src={beforeImage} />
+        <img loading="lazy" decoding="async" width="1800" height="1011" alt="Windows Task Switcher before redesign" className="w-full h-auto object-cover pointer-events-none rounded-[8px]" src={beforeImage} />
       </div>
     </div>
   );
@@ -92,7 +92,7 @@ function Solution() {
       </div>
       <div className="flex flex-col gap-[8px] w-full">
         <div className="bg-[#1a1a2e] overflow-clip relative rounded-[8px] shrink-0 w-full">
-          <img alt="Xbox Ally Task Switcher redesign" className="w-full h-auto object-cover pointer-events-none rounded-[8px]" src={afterGif} />
+          <img loading="lazy" decoding="async" width="1004" height="562" alt="Xbox Ally Task Switcher redesign" className="w-full h-auto object-cover pointer-events-none rounded-[8px]" src={afterGif} />
         </div>
         <a
           href="https://www.youtube.com/watch?v=uvqOIDtKuGM"

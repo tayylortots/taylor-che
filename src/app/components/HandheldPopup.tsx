@@ -127,7 +127,7 @@ export function HandheldPopup({ isOpen, onClose, inline = false }: HandheldPopup
       >
         <Reveal><Frame /></Reveal>
         <Reveal className="aspect-[1920/1080] relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
-          <ImageWithFallback
+          <ImageWithFallback loading="lazy" decoding="async"
             alt="Handheld Compatibility Program interface"
             className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full"
             src={imgHandheldCompatibilityGif}
@@ -186,7 +186,7 @@ export function HandheldPopup({ isOpen, onClose, inline = false }: HandheldPopup
               <Frame />
               
               <div className="aspect-[1920/1080] relative rounded-[12px] sm:rounded-[16px] md:rounded-[20px] shrink-0 w-full">
-                <ImageWithFallback
+                <ImageWithFallback loading="lazy" decoding="async"
                   alt="Handheld Compatibility Program interface"
                   className="absolute inset-0 max-w-none object-cover pointer-events-none rounded-[12px] sm:rounded-[16px] md:rounded-[20px] size-full"
                   src={imgHandheldCompatibilityGif}

@@ -110,11 +110,11 @@ export function BobsEntertainmentPopup({ isOpen, onClose, inline = false }: Bobs
           <div className="flex-1">
             <div className="flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px]">
                     <Reveal className="relative shrink-0 w-full aspect-square max-w-[455px]">
-                      <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid1} />
+                      <ImageWithFallback loading="lazy" decoding="async" alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid1} />
                     </Reveal>
                     
                     <Reveal className="relative shrink-0 w-full aspect-square max-w-[455px]">
-                      <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid2} />
+                      <ImageWithFallback loading="lazy" decoding="async" alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid2} />
                     </Reveal>
 
                     {/* Video with controls */}
@@ -179,11 +179,11 @@ export function BobsEntertainmentPopup({ isOpen, onClose, inline = false }: Bobs
                   <style>{`.overflow-y-auto::-webkit-scrollbar { display: none; }`}</style>
                   <div className="flex flex-col gap-[16px] sm:gap-[20px] md:gap-[24px]">
                     <div className="relative shrink-0 w-full aspect-square max-w-[455px]">
-                      <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid1} />
+                      <ImageWithFallback loading="lazy" decoding="async" alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid1} />
                     </div>
                     
                     <div className="relative shrink-0 w-full aspect-square max-w-[455px]">
-                      <ImageWithFallback alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid2} />
+                      <ImageWithFallback loading="lazy" decoding="async" alt="Bobs Entertainment exhibit piece" className="absolute inset-0 max-w-none object-cover pointer-events-none size-full" src={imgPolaroid2} />
                     </div>
 
                     {/* Video with controls */}
