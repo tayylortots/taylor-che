@@ -391,6 +391,18 @@ export default function App() {
           </AnimatePresence>
         </div>
 
+        {/* Back to top hit area — the footer sits underneath the scroll layer, so its
+            button can't be clicked directly. This invisible button sits on top of it. */}
+        {footerRevealed && (
+          <button
+            type="button"
+            aria-label="Back to top"
+            data-interactive="true"
+            onClick={handleScrollToTop}
+            className="absolute left-1/2 -translate-x-1/2 bottom-[56px] sm:bottom-[18px] md:bottom-[34px] w-[200px] h-[56px] z-30 cursor-pointer bg-transparent"
+          />
+        )}
+
         {/* Custom scrollbar overlay */}
         <CustomScrollbar scrollContainerRef={scrollContainerRef} />
       </motion.div>
