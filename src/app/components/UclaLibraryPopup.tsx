@@ -317,28 +317,33 @@ function Frame36() {
 }
 
 function Frame38() {
+  const captionText = "font-['Istok_Web'] leading-[12px] sm:leading-[14px] md:leading-[16px] lg:leading-[18px] not-italic text-[#989898] text-[8px] sm:text-[10px] md:text-[12px] lg:text-[14px] tracking-[0.42px]";
   return (
-    <div className="bg-[#f9f8f8] min-h-[250px] sm:min-h-[320px] md:min-h-[389px] overflow-clip relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] w-full p-[16px] sm:p-[20px] md:p-[24px] flex items-center justify-center">
-      <div className="relative w-full h-full flex flex-col gap-[16px] sm:gap-[20px] md:gap-[27px]">
-        <div className="flex-1 relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] overflow-hidden flex items-center justify-center">
+    <div className="bg-[#f9f8f8] overflow-clip relative rounded-[6px] sm:rounded-[7px] md:rounded-[8px] w-full p-[16px] sm:p-[20px] md:p-[24px]">
+      <div className="flex flex-col lg:flex-row gap-[16px] sm:gap-[20px] lg:gap-0">
+        {/* Screenshot */}
+        <div className="relative w-full lg:w-[62.7%] lg:shrink-0 rounded-[6px] sm:rounded-[7px] md:rounded-[8px] overflow-hidden">
           <img loading="lazy" decoding="async" alt="Search results improvement" className="w-full h-auto object-contain pointer-events-none rounded-[6px] sm:rounded-[7px] md:rounded-[8px]" src={imgSearchResults211} />
         </div>
-        <div className="flex flex-row gap-[16px] sm:gap-[24px] md:gap-[32px]">
-          <div className="flex-1 flex gap-[6px] sm:gap-[8px] md:gap-[12px] items-start">
-            <div className="hidden sm:flex flex-none w-[10px] md:w-[12px] lg:w-[14px] xl:w-[17px] pt-[3px] md:pt-[4px]">
-              <svg className="block w-full h-auto" fill="none" preserveAspectRatio="none" viewBox="0 0 18.5833 154.667">
-                <path d={svgPaths.p2973cd00} fill="#989898" />
-              </svg>
-            </div>
-            <p className="font-['Istok_Web'] leading-[12px] sm:leading-[14px] md:leading-[16px] lg:leading-[18px] not-italic text-[#989898] text-[8px] sm:text-[10px] md:text-[12px] lg:text-[14px] tracking-[0.42px]">Enhancing search result cards so users can quickly evaluate resources and see availability and key details when available.</p>
+
+        {/* Captions: under the screenshot on small screens, beside it (with leader lines) on large screens */}
+        <div className="flex flex-row gap-[16px] sm:gap-[24px] lg:gap-0 lg:block lg:relative lg:flex-1 lg:ml-[3.6%]">
+          {/* Bracket pointing at the result cards */}
+          <div className="hidden lg:block absolute left-0 top-[0.6%] h-[44.7%] w-[14px] xl:w-[17px]">
+            <svg className="block w-full h-full" fill="none" preserveAspectRatio="none" viewBox="0 0 18.5833 154.667">
+              <path d={svgPaths.p2973cd00} fill="#989898" />
+            </svg>
           </div>
-          <div className="flex-1 flex gap-[6px] sm:gap-[8px] md:gap-[12px] items-start">
-            <div className="hidden sm:flex flex-none w-[10px] md:w-[12px] lg:w-[14px] xl:w-[17px] pt-[3px] md:pt-[4px] rotate-180">
-              <svg className="block w-full h-auto" fill="none" preserveAspectRatio="none" viewBox="0 0 18.3333 2.66667">
-                <path d={svgPaths.p3a3b5d80} fill="#989898" />
-              </svg>
-            </div>
-            <p className="font-['Istok_Web'] leading-[12px] sm:leading-[14px] md:leading-[16px] lg:leading-[18px] not-italic text-[#989898] text-[8px] sm:text-[10px] md:text-[12px] lg:text-[14px] tracking-[0.42px]">{`A graphic banner to provide ways users can refine their search, if the first 10 results don't show their desired material.`}</p>
+          <div className="flex-1 lg:flex-none">
+            <p className={`${captionText} lg:absolute lg:left-[28px] xl:left-[30px] lg:right-0 lg:top-[10%]`}>Enhancing search result cards so users can quickly evaluate resources and see availability and key details when available.</p>
+          </div>
+
+          {/* Line pointing at the banner */}
+          <div className="flex-1 lg:flex-none lg:absolute lg:left-0 lg:right-0 lg:top-[52.9%] lg:flex lg:items-center lg:gap-[14px] xl:gap-[13px]">
+            <svg className="hidden lg:block shrink-0 w-[14px] xl:w-[17px] h-auto rotate-180" fill="none" viewBox="0 0 18.3333 2.66667">
+              <path d={svgPaths.p3a3b5d80} fill="#989898" />
+            </svg>
+            <p className={captionText}>{`A graphic banner to provide ways users can refine their search, if the first 10 results don't show their desired material.`}</p>
           </div>
         </div>
       </div>
